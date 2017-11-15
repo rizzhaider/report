@@ -1,3 +1,4 @@
+import { DummyService } from './services/dummy.service';
 import { CategoriesService } from './services/categories.service';
 import { PackagesService } from './services/packages.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -99,7 +100,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  },UserDayWiseService, DatePipe, CategoriesService, PackagesService],
+  },UserDayWiseService, DatePipe, CategoriesService, PackagesService, DummyService],
   
   bootstrap: [ AppComponent ]
 })

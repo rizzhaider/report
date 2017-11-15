@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { DummyService } from './../../services/dummy.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
  
@@ -6,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
  
 
 })
-export class AstroconsolidatedreportComponent implements OnInit {
-
-  constructor() { }
+export class AstroconsolidatedreportComponent implements OnInit, OnDestroy  {
+  private dumyyContent: {id: number, name: string, status: string}[] = [];
+  constructor(private dummyService: DummyService, private route: ActivatedRoute, private router: Router) {
+   }
 
   ngOnInit() {
+
+    this.dumyyContent = this.dummyService.getServers();
+    console.log(this.dumyyContent)
   }
+  
+  ngOnDestroy() {}
+
+
+
 
 }

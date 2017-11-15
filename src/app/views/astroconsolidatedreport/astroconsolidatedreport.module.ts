@@ -8,7 +8,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import {FormsModule}   from '@angular/forms';
-
+import { MonthlydayreportComponent } from './monthlydayreport/monthlydayreport.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +18,12 @@ import {FormsModule}   from '@angular/forms';
     PaginationModule.forRoot(),
     FormsModule
   ],
-  declarations: [ AstroconsolidatedreportComponent ],
+  declarations: [ AstroconsolidatedreportComponent, MonthlydayreportComponent ],
   
 })  
-export class AstroconsolidatedreportModule { }
+export class AstroconsolidatedreportModule {
+  
+
+  
+
+ }
