@@ -1,9 +1,8 @@
+import { DaywisereportComponent } from './daywisereport/daywisereport.component';
 import { AstroconsolidatedreportRoutingModule } from './astroconsolidatedreport-routing.module';
 import { AstroconsolidatedreportComponent } from './astroconsolidatedreport.component';
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -18,7 +17,8 @@ import { MonthlydayreportComponent } from './monthlydayreport/monthlydayreport.c
     PaginationModule.forRoot(),
     FormsModule
   ],
-  declarations: [ AstroconsolidatedreportComponent, MonthlydayreportComponent ],
+  declarations: [ AstroconsolidatedreportComponent, 
+    MonthlydayreportComponent,DaywisereportComponent ],
   
 })  
 export class AstroconsolidatedreportModule {

@@ -1,3 +1,5 @@
+import { DummymonthSErvice } from './services/monthDummy.service';
+
 import { DummyService } from './services/dummy.service';
 import { CategoriesService } from './services/categories.service';
 import { PackagesService } from './services/packages.service';
@@ -100,7 +102,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  },UserDayWiseService, DatePipe, CategoriesService, PackagesService, DummyService],
+  },UserDayWiseService, DatePipe, CategoriesService, PackagesService, DummyService, DummymonthSErvice],
   
   bootstrap: [ AppComponent ]
 })
