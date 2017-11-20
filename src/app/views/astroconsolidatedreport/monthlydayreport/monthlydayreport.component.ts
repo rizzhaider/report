@@ -12,23 +12,24 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class MonthlydayreportComponent implements OnInit, OnDestroy {
   
-  monthlydata: {id: number, name: string, status: string};
+  monthlydata: { name: string, status: string}[] = [];
   constructor(private dummyService:DummyService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     const id = +this.route.snapshot.params['id'];
-    this.monthlydata = this.dummyService.getServer(id);
+    this.monthlydata = this.dummyService.getServerList(id);
     this.route.params.subscribe(
       (params: Params) => {
-       this.monthlydata = this.dummyService.getServer(+params['id']);
+       this.monthlydata = this.dummyService.getServerList(+params['id']);
       }
 
     );
+    console.log('hii' + this.monthlydata)
   }
  
 
   ngOnDestroy() {
     
   }
-
+  
 }

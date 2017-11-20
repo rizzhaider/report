@@ -68,6 +68,8 @@ export const routes: Routes = [
     data: {
       title: 'Pages'
     },
+
+    
     children: [
       {
         path: '',

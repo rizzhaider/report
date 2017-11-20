@@ -1,2 +1,49 @@
-<h5>{{ monthlydata.name }}</h5>
-<p>monthlydayreport status is {{ monthlydata.status }}</p>
+
+
+
+
+<div class="animated fadeIn">
+    <div class="row">
+      
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Astro Daily Report
+            <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
+          </div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Time Validty</th>
+                  <th>RockMrp</th>                    
+                  <th>Emrp</th>
+                  <th>Package Name</th>
+                  <th>IsActive</th>
+                                   
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dummyDay of dayWiseData">
+                   
+                  <td><a>{{ dummyDay.name }}</a></td>
+                  <td>{{dummyDay.status}}</td> 
+                  <td>dfdfgfdg </td> 
+                  <td>uoi</td>
+                  <td>koi</td>                
+                  <td>iop</td>
+                
+                </tr>
+              </tbody>
+            </table> 
+           
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <!--/.row-->
+  </div>
+ 
+

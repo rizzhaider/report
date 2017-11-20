@@ -10,21 +10,26 @@ import { Subscription } from 'rxjs/Subscription';
  
 })
 export class DaywisereportComponent implements OnInit, OnDestroy {
-  monthlydata: {id: number, name: string, status: string};
+  dayWiseData: { name: string, status: string}[];
   constructor(private dummyService:DummyService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-   
-    this.route.data
-    .subscribe(
-      (data: Data) => {
-        this.monthlydata = data['monthlydata'];
+    const id = +this.route.snapshot.params['id'];
+    const sessionId = +this.route.snapshot.params['sessionId'];
+   // console.log("day:" + id);
+    this.dayWiseData =   this.dummyService.getServerTeamList(id, sessionId);
+    this.route.params.subscribe(
+      (params: Params) => {
+       this.dayWiseData = this.dummyService.getServerTeamList(+params['id'], +params['sessionId']);
       }
+
     );
+    console.log("day:  DayWise FootBall Data" + " " + this.dayWiseData);
   }
 
   ngOnDestroy() {
     
   }
+
 
 }

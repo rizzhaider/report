@@ -25,11 +25,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let dummymonth of monthlydata">
                    
-                  <td><a>{{ monthlydata.name }}</a></td>
-                  <td>{{monthlydata.status}}</td> 
-                  <td>{{monthlydata.id}} </td> 
+                  <td><a [routerLink] = "[ dummymonth.id]" >{{ dummymonth.name }}</a></td>
+                  <td>{{dummymonth.status}}</td> 
+                  <td>dfdfgfdg </td> 
                   <td>uoi</td>
                   <td>koi</td>                
                   <td>iop</td>
@@ -45,5 +45,5 @@
     </div>
     <!--/.row-->
   </div>
- 
+  <router-outlet></router-outlet>
 

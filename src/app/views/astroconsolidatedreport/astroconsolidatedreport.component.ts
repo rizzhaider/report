@@ -9,7 +9,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 })
 export class AstroconsolidatedreportComponent implements OnInit, OnDestroy  {
-  private dumyyContent: {id: number, name: string, status: string}[] = [];
+  private dumyyContent: {id: number, name:string}[] = [];
   
  
   constructor(private dummyService: DummyService, private route: ActivatedRoute, private router: Router) {
