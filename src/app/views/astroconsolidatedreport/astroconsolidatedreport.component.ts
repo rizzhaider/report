@@ -9,6 +9,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 })
 export class AstroconsolidatedreportComponent implements OnInit, OnDestroy  {
+
+ 
+ 
+  bsValue: Date = new Date();
+ 
   private dumyyContent: {id: number, name:string}[] = [];
   
  

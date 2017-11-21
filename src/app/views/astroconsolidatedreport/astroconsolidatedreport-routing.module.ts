@@ -13,40 +13,39 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '', 
-        component: AstroconsolidatedreportComponent, 
+        path: '',
+        component: AstroconsolidatedreportComponent,
         data: {
           title: ''
         }
       },
       {
-        path: '',        
+        path: ':id',
         data: {
-          title: 'Astro Monthly Report',
+          title: 'Astro Monthly Report'
+
         },
-        children:[
-          
-        {          
-          path: ':id', component: MonthlydayreportComponent,
-          data: {
-            title: ''
-            
+        children: [
+          {
+            path: '',
+            component: MonthlydayreportComponent,
+            data: {
+              title: ''
+            }
           },
-        },
-        {
-          path: ':id/:sessionId', component: DaywisereportComponent,
-          data: {
-            title: 'Astro DayWise Report'
+          {
+            path: ':sessionId',
+            component: DaywisereportComponent,
+            data: {
+              title: 'Astro Day Wise Report'
+            }
           }
-        }
         ]
-      },
-      
+      }
+    ]
 
 
-    ],
-   
-  },
+  }
 
 
 ];

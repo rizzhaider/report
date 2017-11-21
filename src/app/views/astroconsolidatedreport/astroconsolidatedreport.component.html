@@ -1,6 +1,21 @@
 <!-- <div id="loader-wrapper" *ngIf="loading">
   <div id="loader"></div>
 </div> -->
+<div class="row">
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <input type="text"
+           class="form-control"
+           [minDate]="minDate"
+           [maxDate]="maxDate"
+           #dp="bsDatepicker"
+           bsDatepicker [(bsValue)]="bsValue">
+  </div>
+  <div class="col-xs-12 col-12 col-md-3 form-group">
+    <button class="btn btn-success" (click)="dp.toggle()">Date Picker</button>
+  </div>
+</div>
+<br>
+ 
 
 <div class="animated fadeIn">
     <div class="row">
@@ -46,4 +61,4 @@
     <!--/.row-->
   </div>
  
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->

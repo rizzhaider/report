@@ -9,6 +9,7 @@ export class DailyUpComponent implements OnInit  {
    loading : boolean = false;;
    bsValue: Date;
    maxDate: Date;
+  
    bsValueStr: string;
    bsDateAPIStr: string;
    DayWiseReport : DayWiseReport;
