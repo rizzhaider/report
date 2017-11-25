@@ -1,4 +1,8 @@
 
+import { AlertService } from './services/alert.service';
+import { BannerService } from './services/banner.service';
+import { AstroavailabilityService } from './services/astroavailability.service';
+
 
 import { DummyService } from './services/dummy.service';
 import { CategoriesService } from './services/categories.service';
@@ -95,14 +99,22 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
 
-   
+
    
     
   ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  },UserDayWiseService, DatePipe, CategoriesService, PackagesService, DummyService],
+  },
+  UserDayWiseService, 
+  DatePipe, 
+  CategoriesService, 
+  PackagesService, 
+  DummyService, 
+  AstroavailabilityService,
+  BannerService,
+  AlertService],
   
   bootstrap: [ AppComponent ]
 })

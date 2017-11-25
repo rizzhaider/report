@@ -59,6 +59,16 @@ export const routes: Routes = [
         loadChildren: './views/astroconsolidatedreport/astroconsolidatedreport.module#AstroconsolidatedreportModule',
         
       },
+      {
+        path: 'astroavailabilityreport',
+        loadChildren: './views/astrologeravailabilityreport/astroavailabilityreport.module#AstroavailabilityreportModule',
+        
+      },
+      {
+        path: 'bannerreport',
+        loadChildren: './views/banner/banner.module#BannerModule',
+        
+      },
       
     ]
   },

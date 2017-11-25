@@ -7,4 +7,5 @@ export const environment = {
   production: false,
   envname: 'dev', 
   baseBZURI:'http://restdev.rockstand.in/astrolive',
+ 
 };

@@ -6,7 +6,10 @@ export class Package {
     isActive: boolean;
     createdOn: number;
     updatedOn:  number;
-    currencyType: number;
+    currencyTypeName:string;
+    currencyType: number = 0;
     packageName:  string;
+    packageType:number = 0;
+    packageTypeName:string;
     }
     

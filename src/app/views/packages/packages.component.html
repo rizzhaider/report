@@ -1,6 +1,9 @@
 <div id="loader-wrapper" *ngIf="loading">
     <div id="loader"></div>
   </div>
+  <div class="alertDiv">
+    <alert></alert>
+  </div>
   
   <div class="animated fadeIn">
       <div class="row" *ngIf="!loading">
@@ -16,12 +19,13 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Time Validty</th>
-                    <th>RockMrp</th>                    
-                    <th>Emrp</th>
-                    <th>Package Name</th>
+                    <th>Validity<small>(in mins)</small> </th>
+                    <th>Type</th>                    
+                    <th>Price</th>
+                    <th>Currency</th>
+                    <!-- <th>Package Name</th> -->
                     <th>IsActive</th>
-                    <th>Currency Type</th>
+                   
                     <th>Created On</th> 
                     <th>Update Package</th>                   
                   </tr>
@@ -30,16 +34,17 @@
                   <tr *ngFor="let package of displayPackage" >
                     <td>{{package?.id}}</td>
                     <td>{{package?.timeValidity}}</td> 
-                    <td>{{package?.rockMrp}}</td> 
+                    <td>{{package?.packageTypeName}}</td> 
                     <td>{{package?.emrp}}</td>
-                    <td>{{package?.packageName}}</td>                
+                    <td>{{package?.currencyTypeName}}</td>
+                    <!-- <td>{{package?.packageName}}</td>                 -->
                     <td>
                       <span class="badge "[ngClass] = "{'badge-success' : package?.isActive, 'badge-danger': !package?.isActive}" >{{package?.isActive}}</span>
                     </td>
-                   <td>{{package?.currencyType}}</td>
+                  
                    <td>{{package?.createdOn | date:'dd-MM-yyyy'}}</td>
                     <td>
-                      <button class="btn btn-outline-primary btn-sm" type="button" (click)="updatePackage(package)"><i class="fa fa-edit "></i>&nbsp; Update</button>
+                      <button class="btn btn-outline-primary btn-sm" type="button" (click)="onUpdatePackage(package)"><i class="fa fa-edit "></i>&nbsp; Update</button>
                       </td>
                   </tr>
                 </tbody>
@@ -67,40 +72,50 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+                <form class="form-horizontal" (ngSubmit)="save(f)" #f="ngForm">
                 <div class="modal-body">
-                    <form action="" class="form-horizontal" method="post">
+                    
                        
                         <div class="form-group row">
                           <label class="col-sm-5 col-form-label" for="timeValidityID">Time Validity</label>
                           <div class="col-sm-6">
-                            <input class="form-control" id="timeValidityID" [(ngModel)]="packageItem.timeValidity" name="Time-Validity" placeholder="Time Validity" type="text">
+                            <input class="form-control" id="timeValidityID" [(ngModel)]="packageItem.timeValidity" name="Time-Validity" placeholder="Time Validity" type="text"  [readonly] = "readOnly">
                           </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-5 col-form-label" for="RockMrpId">RockMrp</label>
                             <div class="col-sm-6">
-                              <input class="form-control" id="RockMrpId" name="Rock-mrp" [(ngModel)]="packageItem.rockMrp" placeholder="Only numeric" type="text">
+                              <input class="form-control" id="RockMrpId" name="Rock-mrp" [(ngModel)]="packageItem.rockMrp" placeholder="Only numeric" type="text" [readonly] = "readOnly">
                             </div>
                           </div>
                           <div class="form-group row">
                               <label class="col-sm-5 col-form-label" for="EmrpId">Emrp</label>
                               <div class="col-sm-6">
-                                <input class="form-control" id="EmrpId" name="E-Mrp" [(ngModel)]="packageItem.emrp" placeholder="Only numeric" type="text">
+                                <input class="form-control" id="EmrpId" name="E-Mrp" [(ngModel)]="packageItem.emrp" placeholder="Only numeric" type="text" [readonly] = "readOnly">
                               </div>
                             </div>
                             <div class="form-group row">
-                              <label class="col-md-5 col-form-label">Currency Type</label>
+                              <label class="col-md-5 col-form-label" for="bannertypeId">Select Currency Type</label>
                               <div class="col-md-6">
-                                <label class="radio-inline" for="inline-radio1">
-                                  <input id="inline-radio1" name="inline-radios" type="radio" [checked]="packageItem.currencyType == 1" value="option1"> INR
-                                </label>
-                                <label class="radio-inline" for="inline-radio2">
-                                  <input id="inline-radio2" name="inline-radios" type="radio" [checked]="packageItem.currencyType == 2" value="option2"> USD
-                                </label>
-                                
+                                <select  [(ngModel)]="packageItem.currencyType" class="form-control" name="packageItem.currencyType" [disabled] = "readOnly">
+                                  <option   value = 0 >Please select</option>
+                                  <option  *ngFor="let currencyType of currencyTypes"  [ngValue]="currencyType.id" > {{currencyType.name}} </option>
+                                  
+                                </select>
                               </div>
-                            
                             </div>
+
+                            <div class="form-group row">
+                              <label class="col-md-5 col-form-label" for="bannertypeId">Select Package Type</label>
+                              <div class="col-md-6">
+                                <select  [(ngModel)]="packageItem.packageType" class="form-control" name="packageItem.packageType" [disabled] = "readOnly">
+                                  <option value = 0 >Please select</option>
+                                  <option  *ngFor="let packageType of packageTypes"  [ngValue]="packageType.id" > {{packageType.name}} </option>
+                                  
+                                </select>
+                              </div>
+                            </div>
+
                           <!-- <div class="form-group row">
                                 <label class="col-md-5 col-form-label" for="select">Currency Type</label>
                                 <div class="col-md-6">
@@ -114,11 +129,11 @@
                           <div class="form-group row">
                               <label class="col-sm-5 col-form-label" for="PackageActive">Active</label>
                               <div class="col-sm-6">                              
-                                      <input id="PackageActive" name="inline-checkbox2" [checked]="packageItem.isActive" type="checkbox">
+                                      <input id="PackageActive" name="inline-checkbox2" [(ngModel)] = "packageItem.isActive" [checked]="packageItem.isActive" type="checkbox">
                               </div>
                             </div>
                         
-                      </form>
+                     
                 </div>
                 <div class="modal-footer">
                   <!-- <button type="button" class="btn btn-secondary" (click)="packageModal.hide()">Close</button> -->
@@ -127,6 +142,7 @@
                     <span>{{saveText}}</span>               
                   </button>
                 </div>
+              </form>
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
           </div><!-- /.modal -->

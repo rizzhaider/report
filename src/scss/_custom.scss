@@ -86,8 +86,32 @@
     transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
     }
     }
+    /* end preloader */
 .linkHover{
     color:#3498db;
     cursor: pointer;
 }
-    /* end preloader */
+.heightTop{
+    margin-top: 15px !important;
+}
+.textCenterTable thead tr td{
+    text-align: center !important;
+}
+.textCenterTable tbody tr td{
+    text-align: center !important;
+}
+@media only screen and (max-width:768px){
+
+    .input-group .form-control{
+        z-index: 0 !important;
+    }
+}
+.alertDiv{
+    position: absolute;
+    z-index: 9999999999;
+    width: 25%;
+    text-align: center;
+    left: 37%;
+    top: 25%;
+  }
+    

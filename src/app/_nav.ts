@@ -115,6 +115,16 @@ export const navigation = [
     icon: 'icon-pie-chart'
   },
   {
+    name: 'Astro Availability',
+    url: '/astroavailabilityreport',
+    icon: 'icon-pie-chart'
+  },
+  {
+    name: 'Banner Report',
+    url: '/bannerreport',
+    icon: 'icon-pie-chart'
+  },
+  {
     divider: true
   },
   {

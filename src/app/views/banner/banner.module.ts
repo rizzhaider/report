@@ -1,10 +1,9 @@
-import { AlertComponent } from './../../alert/alert.component';
-
+import { BannerRoutingModule } from './banner-routing.module';
+import { BannerComponent } from './banner.component';
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { PackagesComponent } from './packages.component';
-import { PackagesRoutingModule } from './packages-routing.module';
+
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -12,14 +11,13 @@ import {FormsModule}   from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
-    PackagesRoutingModule,
+    BannerRoutingModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    FormsModule,
-  
+    FormsModule
   ],
-  declarations: [ PackagesComponent,   AlertComponent ],
+  declarations: [ BannerComponent ],
   
 })  
-export class PackagesModule { }
+export class BannerModule { }
