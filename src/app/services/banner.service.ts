@@ -1,3 +1,4 @@
+import { Banner } from './../shared/model/banner.model';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
@@ -7,11 +8,11 @@ import 'rxjs/add/operator/catch'
 @Injectable()
 export class BannerService {
     private baseURL = environment.baseBZURI;
-    private getBannerURL = this.baseURL + '/banner';
+    private bannerURL = this.baseURL + '/banner';
     constructor(private http: Http) { }
     
     getBannerDetail() {
-        let _getBannerURL = this.getBannerURL;
+        let _getBannerURL = this.bannerURL;
        
         console.log(_getBannerURL);
         return this.http.get(_getBannerURL)
@@ -31,20 +32,34 @@ export class BannerService {
 
        
         const formData = new FormData();
-        formData.append('bannerType', dataObject.bannerType);
-        formData.append('isAcitve', dataObject.isAcitve);
-        formData.append('banneImageUrl', dataObject.banneImageUrl);
-        formData.append('bannerTypeID', dataObject.bannerTypeID);
-        formData.append('bannerId', dataObject.bannerId);
-        formData.append('file', dataObject.file);
+        formData.append('imageFile', dataObject.imageFile);
+        formData.append('active', dataObject.active);
+        formData.append('type', dataObject.type);
+      
       
         // let options = new RequestOptions({ headers: headers });
         
-        return this.http.post(this.getBannerURL, formData)
+        return this.http.post(this.bannerURL, formData)
             .map((response: Response) => {
-                let data = response;;
+                let data = response.json();
                 return data;
             }).catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    updateBanner(bannerDetails: Banner) {
+        
+         let _bannerURL = this.bannerURL;
+         _bannerURL = _bannerURL + '/' +  bannerDetails.id + '?active=' +  bannerDetails.active ; 
+       
+         // let options = new RequestOptions({ headers: headers });
+         
+         return this.http.get(_bannerURL)
+             .map((response: Response) => {
+                 let data = response.json();
+                 console.log("savedAtata" + ' ' + data);
+                 return data;
+                
+             }).catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+       }
 
 }

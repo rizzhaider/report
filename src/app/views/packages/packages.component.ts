@@ -1,3 +1,4 @@
+import { ObjectFilterPipe } from './../../shared/pipes/object-filter.pipe';
 import { AlertService } from './../../services/alert.service';
 import { NgForm } from '@angular/forms';
 import { PackageType } from './../../shared/model/package-type.model';
@@ -9,6 +10,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 @Component({
 
   templateUrl: './packages.component.html',
+  providers: [ObjectFilterPipe]
 
 
 })
@@ -22,6 +24,33 @@ export class PackagesComponent implements OnInit {
   headerText = "";
 
   public readOnly: boolean;
+  public selectedPackageType = 0;
+  public selectedCurrencyType = 0;
+  public selectedStatus:boolean = null;
+  
+
+  @ViewChild('packageModal') _packageModal: any;
+
+  public allPackages: Package[];
+  public filteredPackages: Package[];
+  public currencyTypes: CurrencyType[];
+  public packageTypes: PackageType[];
+  public displayPackages: Package[];
+
+  public packageItem: Package = new Package();
+  public loading: boolean = false;
+
+  public filterObj = null;
+
+  constructor(private packageService: PackagesService, 
+    private alertService: AlertService,
+    private filterPipe: ObjectFilterPipe) { 
+
+  }
+
+  ngOnInit() {
+    this.getPackagesList();
+  }
 
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
@@ -30,23 +59,7 @@ export class PackagesComponent implements OnInit {
   pageChanged(event: any): void {
     let startIndex = (event.page - 1) * this.itemsPerPage;
     let endIndex = startIndex + this.itemsPerPage;
-    this.displayPackage = this.package.slice(startIndex, endIndex)
-  }
-
-  @ViewChild('packageModal') _packageModal: any;
-
-  public package: Package[];
-  public currencyTypes: CurrencyType[];
-  public packageTypes: PackageType[];
-  public displayPackage: Package[];
-
-  public packageItem: Package = new Package();
-  public loading: boolean = false;
-
-  constructor(private packageService: PackagesService, private alertService: AlertService) { }
-
-  ngOnInit() {
-    this.getPackagesList();
+    this.displayPackages = this.filteredPackages.slice(startIndex, endIndex)
   }
 
   getPackagesList() {
@@ -55,14 +68,15 @@ export class PackagesComponent implements OnInit {
 
       data => {
         this.loading = false;
-        this.package = data.packageList;
+        this.allPackages = data.packageList;
+        this.filteredPackages = this.filterPipe.transform(this.allPackages, this.filterObj); 
         this.currencyTypes = data.currencyTypes;
         this.packageTypes = data.packageTypes;
-        this.totalItems = this.package.length;
+        this.totalItems = this.filteredPackages.length;
         this.currentPage = 1;
         let startIndex = (this.currentPage - 1) * this.itemsPerPage;
         let endIndex = startIndex + this.itemsPerPage;
-        this.displayPackage = this.package.slice(startIndex, endIndex);
+        this.displayPackages = this.filteredPackages.slice(startIndex, endIndex);
 
       }
 
@@ -80,6 +94,8 @@ export class PackagesComponent implements OnInit {
   onAddPackage() {
     this.readOnly = false;
     this.packageItem = new Package();
+    this.packageItem.currencyType = null;
+    this.packageItem.packageType = null;
     this.saveText = "Save";
     this.headerText = "Add New Package";
     this._packageModal.show();
@@ -145,10 +161,40 @@ export class PackagesComponent implements OnInit {
         console.log(data);
       },
       error => {
-        this.alertService.error(error);
+        this.alertService.errorTimedOut(error, 3000);
         this.loading = false;
 
       });
+
+  }
+  onChange(){
+    // console.log(this.selectedPackageType);
+    // console.log(this.selectedCurrencyType);
+    // console.log(this.selectedStatus);
+
+    if (this.selectedPackageType == 0 && this.selectedCurrencyType == 0 && this.selectedStatus == null) {
+      this.filterObj = null;
+    } else {
+      this.filterObj = {};
+      if (this.selectedPackageType != 0) {
+        this.filterObj.packageType = this.selectedPackageType;
+      }
+      if (this.selectedCurrencyType != 0) {
+        this.filterObj.currencyType = this.selectedCurrencyType;
+      }
+      if (this.selectedStatus != null) {
+        this.filterObj.isActive = this.selectedStatus;
+      }
+
+    }
+    this.filteredPackages = this.filterPipe.transform(this.allPackages, this.filterObj); 
+    this.totalItems = this.filteredPackages.length;
+    this.currentPage = 1;
+    let startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    let endIndex = startIndex + this.itemsPerPage;
+    this.displayPackages = this.filteredPackages.slice(startIndex, endIndex);
+
+
 
   }
 

@@ -1,3 +1,4 @@
+import { AlertComponent } from './alert/alert.component';
 
 import { AlertService } from './services/alert.service';
 import { BannerService } from './services/banner.service';
@@ -95,6 +96,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   ],
   declarations: [
     AppComponent,
+    AlertComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,

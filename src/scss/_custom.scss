@@ -114,4 +114,19 @@
     left: 37%;
     top: 25%;
   }
+  .noMarginpadding{
+      margin-top: 0; padding-top: 0;
+      margin-bottom: 0; padding-bottom: 0;
+  }
+  input.ng-invalid.ng-touched, select.ng-invalid.ng-touched{
+    border: 1px solid red; 
+  }
+  .help-block{
+      font-size:11px;
+      color:red;
+      margin: -2px 0 0 0; text-align: left;
+  }
+  .displayNone{
+      display: none;
+  }
     

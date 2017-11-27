@@ -1,3 +1,4 @@
+import { AlertService } from './../../services/alert.service';
 import { Banner } from './../../shared/model/banner.model';
 import { BannerType } from './../../shared/model/banner-type.model';
 import { BannerService } from './../../services/banner.service';
@@ -22,7 +23,28 @@ export class BannerComponent implements OnInit {
   public image_file: File;
   public filename: string = '';
   public filesize: number;
+  public readOnly: boolean;
 
+  
+   
+   @ViewChild('f') _form: NgForm;
+   @ViewChild('bannerModal') _bannerModal: any;
+   public bannerList:Banner[];
+   public selectedBannerTypeId:number;
+   public bannerTypes:BannerType[];
+   public displayBanner:Banner[];
+   public bannerItem: Banner = new Banner();
+   public loading:boolean = false;
+  constructor(private bannerService: BannerService, private alertService: AlertService) { }
+
+  ngOnInit() {
+    this.getBannerList();
+  }
+  public fileChange(event) {
+    this.image_file = event.srcElement.files[0];
+    this.filename = this.image_file.name;
+    this.filesize = this.image_file.size;
+  }
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
   }
@@ -34,29 +56,9 @@ export class BannerComponent implements OnInit {
     let endIndex = startIndex + this.itemsPerPage;
     this.displayBanner = this.bannerList.slice(startIndex, endIndex)
   }
-
-   public newCatModal;
-   @ViewChild('bannerModal') _bannerModal: any;
-   public bannerList:Banner[];
-   public selectedBannerTypeId:number;
-   public bannerTypes:BannerType[];
-   public displayBanner:Banner[];
-   public bannerItem: Banner = new Banner();
-   public loading:boolean = false;
-  constructor(private bannerService: BannerService) { }
-
-  ngOnInit() {
-    this.getBannerList();
-  }
-  public fileChange(event) {
-    this.image_file = event.srcElement.files[0];
-    this.filename = this.image_file.name;
-    this.filesize = this.image_file.size;
-  }
   getBannerList(){
     this.loading = true;
     this.bannerService.getBannerDetail().subscribe(
-
         data => {
         this.loading = false;
        this.bannerList = data.bannerList;
@@ -72,40 +74,67 @@ export class BannerComponent implements OnInit {
     )
   }
 
-  updateBanner(banner:Banner){
-    this.bannerItem = banner;
+  OnUpdateBanner(_banner:Banner){
+    this.readOnly = true;
+    this.bannerItem = Object.assign({}, _banner);
     this.filename = '';
     this.image_file = null;
     this.filesize = undefined;
     this.selectedBannerTypeId = this.bannerItem.type;
     this.saveText = "Update";
     this.headerText = "Update Banner"
-    console.log(this.bannerItem);
+    console.log(this.bannerItem); 
+    // document.getElementById('image_file').nodeValue = '';   
+    // this._form.form.markAsPristine();
+    // this._form.form.markAsUntouched();
+    // this._form.form.updateValueAndValidity();
+
     this._bannerModal.show();
   }
   onAddBanner(){
+    this.readOnly = false;
     this.bannerItem = new Banner();
+    this.bannerItem.type = null;
     this.image_file = null;
     this.filename = '';
     this.filesize = undefined;
     this.saveText = "Save";
     this.selectedBannerTypeId = 0;
     this.headerText = "Add New Banner"
+
+
     console.log(this.bannerItem);
+    document.getElementById('image_file').nodeValue = '';
+    this._form.form.markAsPristine();
+    this._form.form.markAsUntouched();
+    this._form.form.updateValueAndValidity();
+
+
     this._bannerModal.show();
   }
 
-
   save(form: NgForm) {
-    // this.alertService.clear();
-    this.createBanner(form);
+    if (this.bannerItem.id) {
+      this.updateBanner(form);
+    } else {
+      this.createBanner(form);
+    }
+
+
+
   }
+
   validate() {
     // Image Validation
+
+    if(this.image_file == null){
+      this.alertService.errorTimedOut('Please select a image to upload', 3000);
+      return false;
+    }
     if (this.filesize) {
       if (this.filesize > 2097152) {
-        // this.alertService.error('Please select a file size less than 2 MB');
-        console.log("Please select a file size less than 2 MB");
+        this.alertService.successTimedOut('Please select a file size less than 2 MB', 3000);
+        // console.log("Please select a file size less than 2 MB");
         return false;
       }
     }
@@ -120,7 +149,7 @@ export class BannerComponent implements OnInit {
         || Extension == "jpeg" || Extension == "jpg") {
 
       } else {
-        // this.alertService.error('Please upload a valid image file');
+        this.alertService.errorTimedOut('Please upload a valid image file', 3000);
         console.log("Please upload a valid image file");
         return false;
       }
@@ -130,29 +159,55 @@ export class BannerComponent implements OnInit {
   }
 
 
-
-
-
   createBanner(form: NgForm) {
     if (!this.validate())
       return;
     let bannerData = {
-      bannerType: this.bannerItem.typeName,
-      isAcitve: this.bannerItem.active,
-      banneImageUrl: this.bannerItem.url,
-      bannerTypeID: this.bannerItem.type,
-      bannerId: this.bannerItem.id,    
-      file: this.image_file
-    }
+      type: this.bannerItem.type,
+      active: this.bannerItem.active,
+      imageFile: this.image_file
+     }
 
     this.bannerService.createBanner(bannerData).subscribe(
       data => {
-        // this.logService.debug('Received createNewNGO response', data);
-        this._bannerModal.hide();
-        // this.orgCreated.emit();
+        if (data.success) {
+          
+                    this.alertService.successTimedOut("Banner has been added", 3000);
+                    this._bannerModal.hide();
+                    this.getBannerList();
+                  } else {
+                    this.alertService.errorTimedOut("Banner Cannot be added at the moment", 3000);
+                  }
       },
       error => {
-        // this.logService.error(error);
+      this.alertService.errorTimedOut(error, 3000);
+      });
+
+  }
+
+
+  updateBanner(form: NgForm) {
+    this.loading = true;
+    // if (!this.validate())
+    // return;
+    this.bannerService.updateBanner(this.bannerItem).subscribe(
+
+      data => {
+
+        if (data.success) {
+          this.alertService.successTimedOut("Package has been updated", 3000);
+          this._bannerModal.hide();
+          this.getBannerList();
+        } else {
+          this.alertService.errorTimedOut("Package Cannot be updated at the moment", 3000);
+        }
+        this.loading = false;
+        console.log(data);
+      },
+      error => {
+        this.alertService.errorTimedOut(error, 3000);
+        this.loading = false;
+
       });
 
   }

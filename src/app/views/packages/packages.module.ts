@@ -1,4 +1,5 @@
-import { AlertComponent } from './../../alert/alert.component';
+import { ObjectFilterPipe } from './../../shared/pipes/object-filter.pipe';
+
 
 import { NgModule } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { PackagesRoutingModule } from './packages-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import {FormsModule}   from '@angular/forms';
+import { FormsModule }   from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +20,7 @@ import {FormsModule}   from '@angular/forms';
     FormsModule,
   
   ],
-  declarations: [ PackagesComponent,   AlertComponent ],
+  declarations: [ PackagesComponent, ObjectFilterPipe ],
   
 })  
 export class PackagesModule { }
