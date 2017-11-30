@@ -1,3 +1,4 @@
+import { ObjectFilterPipe } from './../../shared/pipes/object-filter.pipe';
 import { AlertService } from './../../services/alert.service';
 import { Banner } from './../../shared/model/banner.model';
 import { BannerType } from './../../shared/model/banner-type.model';
@@ -9,8 +10,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 import { NgForm } from '@angular/forms';
 @Component({
 
-  templateUrl: './banner.component.html'
-
+  templateUrl: './banner.component.html',
+  providers: [ObjectFilterPipe]
 
 })
 export class BannerComponent implements OnInit {
@@ -25,17 +26,22 @@ export class BannerComponent implements OnInit {
   public filesize: number;
   public readOnly: boolean;
 
-  
+  public selectedBannerType = 0;
+  public selectedStatus:boolean = null;
    
    @ViewChild('f') _form: NgForm;
    @ViewChild('bannerModal') _bannerModal: any;
-   public bannerList:Banner[];
+   
+   public allBanners:Banner[];
+   public filteredBanner: Banner[];
    public selectedBannerTypeId:number;
    public bannerTypes:BannerType[];
    public displayBanner:Banner[];
    public bannerItem: Banner = new Banner();
    public loading:boolean = false;
-  constructor(private bannerService: BannerService, private alertService: AlertService) { }
+   public filterObj = null;
+  constructor(private bannerService: BannerService, private alertService: AlertService,
+              private filterPipe:ObjectFilterPipe) { }
 
   ngOnInit() {
     this.getBannerList();
@@ -54,39 +60,40 @@ export class BannerComponent implements OnInit {
     console.log('Number items per page: ' + event.itemsPerPage);
     let startIndex = (event.page - 1) * this.itemsPerPage;
     let endIndex = startIndex + this.itemsPerPage;
-    this.displayBanner = this.bannerList.slice(startIndex, endIndex)
+    this.displayBanner = this.filteredBanner.slice(startIndex, endIndex)
   }
   getBannerList(){
     this.loading = true;
     this.bannerService.getBannerDetail().subscribe(
         data => {
-        this.loading = false;
-       this.bannerList = data.bannerList;
+       this.loading = false;
+       this.allBanners = data.bannerList;
+       this.filteredBanner = this.filterPipe.transform(this.allBanners, this.filterObj); 
        this.bannerTypes = data.bannerTypes;
-       this.totalItems = this.bannerList.length;
+       this.totalItems = this.filteredBanner.length;
        this.currentPage = 1;
        let startIndex = (this.currentPage - 1) * this.itemsPerPage;
        let endIndex = startIndex + this.itemsPerPage;
-       this.displayBanner = this.bannerList.slice(startIndex, endIndex);
+       this.displayBanner = this.filteredBanner.slice(startIndex, endIndex);
        //console.log(this.category);
         }
 
     )
   }
-
+  
   OnUpdateBanner(_banner:Banner){
     this.readOnly = true;
     this.bannerItem = Object.assign({}, _banner);
     this.filename = '';
     this.image_file = null;
     this.filesize = undefined;
-    this.selectedBannerTypeId = this.bannerItem.type;
+    // this.selectedBannerTypeId = this.bannerItem.type;
     this.saveText = "Update";
     this.headerText = "Update Banner"
     console.log(this.bannerItem); 
     // document.getElementById('image_file').nodeValue = '';   
     // this._form.form.markAsPristine();
-    // this._form.form.markAsUntouched();
+    this._form.form.markAsUntouched();
     // this._form.form.updateValueAndValidity();
 
     this._bannerModal.show();
@@ -99,17 +106,13 @@ export class BannerComponent implements OnInit {
     this.filename = '';
     this.filesize = undefined;
     this.saveText = "Save";
-    this.selectedBannerTypeId = 0;
+    // this.selectedBannerTypeId = 0;
     this.headerText = "Add New Banner"
-
-
     console.log(this.bannerItem);
     document.getElementById('image_file').nodeValue = '';
     this._form.form.markAsPristine();
     this._form.form.markAsUntouched();
     this._form.form.updateValueAndValidity();
-
-
     this._bannerModal.show();
   }
 
@@ -211,5 +214,29 @@ export class BannerComponent implements OnInit {
       });
 
   }
+  onChange(){
 
+    if (this.selectedBannerType == 0 && this.selectedStatus == null) {
+      this.filterObj = null;
+    } else {
+      this.filterObj = {};
+      if (this.selectedBannerType != 0) {
+        this.filterObj.type = this.selectedBannerType;
+      }
+      
+      if (this.selectedStatus != null) {
+        this.filterObj.active = this.selectedStatus;
+      }
+
+    }
+
+    this.filteredBanner = this.filterPipe.transform(this.allBanners, this.filterObj);    
+    this.totalItems = this.filteredBanner.length;
+    this.currentPage = 1;
+    let startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    let endIndex = startIndex + this.itemsPerPage;
+    this.displayBanner = this.filteredBanner.slice(startIndex, endIndex);
+  }
+
+  
 }

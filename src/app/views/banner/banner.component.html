@@ -2,7 +2,7 @@
   <div id="loader"></div>
 </div>
 <div class="alertDiv">
-    <alert></alert>
+    <app-alert></app-alert>
   </div>
 <div class="animated fadeIn">
     <div class="row" *ngIf="!loading">
@@ -10,11 +10,39 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-align-justify"></i> Banner Report
-            <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddBanner()" >Add New Banner</span>
+            <div class="row">
+              <div class="col-md-3 noMarginpadding">
+                  <i class="fa fa-align-justify"></i>  Banner Report
+                </div>
+               
+                  <div class="form-group col-md-3 noMarginpadding">
+                    
+                      <select  [(ngModel)]="selectedBannerType" class="form-control" name="selectedBannerType" 
+                       (change) = "onChange()">
+                        <option value = 0>-- Select Banner Type --</option>
+                        <option *ngFor="let bannerType of bannerTypes"  [ngValue]="bannerType.id" > {{bannerType.name}} </option>
+                        
+                      </select>
+                  </div>
+                  <div class="form-group col-md-3 noMarginpadding">
+                    
+                      <select class="form-control" [(ngModel)] = "selectedStatus" name="selectedStatus" (change) = "onChange()">
+                        <option [ngValue] = null>-- Select Package Status --</option>                      
+                        <option [ngValue] = true>Active</option>
+                        <option [ngValue] = false>Inactive</option>
+                       
+                      </select>
+                    </div>
+                    <div class="col-md-3 noMarginpadding">
+                        <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddBanner()" >Add New Banner</span>
+                    </div>
+
+                    </div>
+            
           </div>
           <div class="card-body">
-            <table class="table table-striped">
+              <div class="table-responsive">
+            <table class="table table-striped textCenterTable">
               <thead>
                 <tr>
                   <th>Banner Image</th>
@@ -25,7 +53,7 @@
                   <th>Update Category</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="displayBanner.length != 0">
                 <tr *ngFor="let banner of displayBanner">
                   <td><img src="{{banner.url}}" style="width:100px; height:50px;"></td>
                   <td>{{banner.typeName}}</td>                  
@@ -39,8 +67,15 @@
                     </td>
                 </tr>
               </tbody>
+              <tbody *ngIf="displayBanner.length == 0">
+                  <tr>
+                    <td colspan="4">No record found!</td>
+                  </tr>
+              </tbody>
             </table> 
-            <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
+            </div>
+            
+            <pagination [hidden]="displayBanner.length == 0" [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
           </div>
         </div>
       </div>

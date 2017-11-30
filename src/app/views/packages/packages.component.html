@@ -2,7 +2,7 @@
     <div id="loader"></div>
   </div>
   <div class="alertDiv">
-    <alert></alert>
+    <app-alert></app-alert>
   </div>
   
   <div class="animated fadeIn">
@@ -19,7 +19,7 @@
                 <div class="form-group col-md-3 noMarginpadding">
                 
                     <select  [(ngModel)]="selectedPackageType" class="form-control" name="selectedPackageType" (change) = "onChange()">
-                        <option value = 0 >select Package Type</option>
+                        <option value = 0 >-- Select Package Type --</option>
                         <option  *ngFor="let packageType of packageTypes"  [ngValue]="packageType.id" > {{packageType.name}} </option>
                         
                       </select>
@@ -27,7 +27,7 @@
                 <div class="form-group col-md-3 noMarginpadding">
                   
                     <select [(ngModel)]="selectedCurrencyType" class="form-control" name="selectedCurrencyType" (change) = "onChange()">
-                        <option   value = 0 >select currency Type</option>
+                        <option   value = 0 >-- Select Currency Type --</option>
                         
                         <option  *ngFor="let currencyType of currencyTypes"  [ngValue]="currencyType.id" > {{currencyType.name}} </option>
                         
@@ -36,7 +36,7 @@
                 <div class="form-group col-md-2 noMarginpadding">
                   
                     <select class="form-control" [(ngModel)] = "selectedStatus" name="selectedStatus" (change) = "onChange()">
-                      <option [ngValue] = null>Select Package Status</option>                      
+                      <option [ngValue] = null>-- Select Package Status --</option>                      
                       <option [ngValue] = true>Active</option>
                       <option [ngValue] = false>Inactive</option>
                      
@@ -48,6 +48,7 @@
             </div>
             </div>
             <div class="card-body">
+                <div class="table-responsive">
               <table class="table table-striped textCenterTable">
                 <thead>
                   <tr>
@@ -87,7 +88,8 @@
                   </tr>
                 </tbody>
               </table> 
-              <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
+              </div>
+              <pagination [hidden]="displayPackages.length == 0" [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
             </div>
           </div>
         </div>

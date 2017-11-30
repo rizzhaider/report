@@ -1,3 +1,4 @@
+
 import { DaywisereportComponent } from './daywisereport/daywisereport.component';
 import { AstroconsolidatedreportRoutingModule } from './astroconsolidatedreport-routing.module';
 import { AstroconsolidatedreportComponent } from './astroconsolidatedreport.component';
@@ -19,6 +20,8 @@ import { MonthlydayreportComponent } from './monthlydayreport/monthlydayreport.c
   ],
   declarations: [ AstroconsolidatedreportComponent, 
     MonthlydayreportComponent,DaywisereportComponent ],
+
+ 
   
 })  
 export class AstroconsolidatedreportModule {

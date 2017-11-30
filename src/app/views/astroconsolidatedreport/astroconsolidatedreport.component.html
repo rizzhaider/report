@@ -1,19 +1,7 @@
 <!-- <div id="loader-wrapper" *ngIf="loading">
   <div id="loader"></div>
 </div> -->
-<div class="row">
-  <div class="col-xs-12 col-12 col-md-4 form-group">
-    <input type="text"
-           class="form-control"
-           [minDate]="minDate"
-           [maxDate]="maxDate"
-           #dp="bsDatepicker"
-           bsDatepicker [(bsValue)]="bsValue">
-  </div>
-  <div class="col-xs-12 col-12 col-md-3 form-group">
-    <button class="btn btn-success" (click)="dp.toggle()">Date Picker</button>
-  </div>
-</div>
+
 <br>
  
 
@@ -23,24 +11,79 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-align-justify"></i> Astro Consolidated Report
+              <div class="row">
+                  <div class="col-md-3 noMarginpadding">
+                      <i class="fa fa-align-justify"></i>  Astro Consolidated Report
+                    </div>
+                   
+                      <div class="form-group col-md-3 noMarginpadding">
+                        
+                          <select  [(ngModel)]="selectedYear" class="form-control" name="selectedYear" 
+                           (change) = "onYearChnage(selectedYear)">
+                            <option [ngValue] = null> -- Select Year -- </option>
+                            <option *ngFor="let year of years"  [ngValue]="year"> {{year}} </option>
+                            
+                          </select>
+                      </div>
+                      <div class="form-group col-md-3 noMarginpadding">
+                        
+                          <select class="form-control" [(ngModel)] = "selectedMonth" name="selectedMonth" (change) = "onMonthChange(selectedMonth)">
+                          
+                              <option [ngValue] = null> -- Select Month -- </option>
+                              <option *ngFor="let month of months"  [ngValue]="month.value"> {{month.name}} </option>
+                          </select>
+                        </div>
+                      
+    
+                     </div>
+                     <!-- astromonthReports -->
+            <!-- <i class="fa fa-align-justify"></i> Astro Consolidated Report -->
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Time Validty</th>
-                  <th>RockMrp</th>                    
-                  <th>Emrp</th>
-                  <th>Package Name</th>
-                  <th>IsActive</th>
+                  <th>Astro Name</th>
+                  <th>Work Time</th>
+                  <th>DND Time</th>                    
+                  <th>Offline Time</th>
+                  <th>Online Time</th>
+                  <th>Total Call</th>
+                  <th>Received Call</th>
+                  <th>Missed Call</th>
+                  <th>Rejected Call</th>
+                  <th>Astro Disconnect Normal</th>
+                  <th>User Disconnect Normal</th>
+                  <th>Astro Disconnect Abrupt</th>
+                  <th>User Disconnect Abrupt</th>
+                  <th>Astro Unreachable</th>
+                  <th>User Package Expired</th>
+                  <th>Astro not pick</th>
                                    
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let dummy of dumyyContent">
+                  
+                  <tr *ngFor="let astromonthReport of astromonthReports">
+                    <td>{{astromonthReport?.astro_name}}</td>
+                    <td>{{astromonthReport?.work_time}}</td>
+                    <td>{{astromonthReport?.dnd_time}}</td>
+                    <td>{{astromonthReport?.offline_time}}</td>
+                    <td>{{astromonthReport?.online_time}}</td>
+                    <td>{{astromonthReport?.total_call}}</td>
+                    <td>{{astromonthReport?.received_call}}</td>
+                    <td>{{astromonthReport?.missed_call}}</td>
+                    <td>{{astromonthReport?.rejected_call}}</td>
+                    <td>{{astromonthReport?.call_disconnect_normal_astro}}</td>
+                    <td>{{astromonthReport?.call_disconnect_normal_user}}</td>
+                    <td>{{astromonthReport?.call_disconnect_abrupt_astro}}</td>
+                    <td>{{astromonthReport?.call_disconnect_abrupt_user}}</td>
+                    <td>{{astromonthReport?.call_disconnect_astro_unreachable}}</td>
+                    <td>{{astromonthReport?.call_disconnect_user_package_expired}}</td>
+                    <td>{{astromonthReport?.call_disconnect_astro_not_pick}}</td>
+                  </tr>
+                <!-- <tr *ngFor="let dummy of dumyyContent">
                   
                   <td><a [routerLink] = "['/astroconsolidatedreport', dummy.id  ]">{{ dummy.name }}</a></td>
                   <td>cbv</td> 
@@ -49,7 +92,7 @@
                   <td>koi</td>                
                   <td>iop</td>
                 
-                </tr>
+                </tr> -->
               </tbody>
             </table> 
            

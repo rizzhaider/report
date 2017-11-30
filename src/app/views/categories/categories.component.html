@@ -12,6 +12,7 @@
             <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddCategory()" >Add New Category</span>
           </div>
           <div class="card-body">
+              <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -38,6 +39,7 @@
                 </tr>
               </tbody>
             </table> 
+            </div>
             <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
           </div>
         </div>

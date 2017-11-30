@@ -1,6 +1,7 @@
-import { AlertComponent } from './alert/alert.component';
+import { AstroconsolidatedService } from './services/astroconsolidated.service';
 
-import { AlertService } from './services/alert.service';
+
+
 import { BannerService } from './services/banner.service';
 import { AstroavailabilityService } from './services/astroavailability.service';
 
@@ -29,6 +30,9 @@ const APP_CONTAINERS = [
   SimpleLayoutComponent
 ]
 
+
+
+
 // Import components
 import {
 
@@ -40,8 +44,11 @@ import {
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
+  
   APP_SIDEBAR_NAV
 } from './components';
+
+
 
 const APP_COMPONENTS = [
   
@@ -53,6 +60,7 @@ const APP_COMPONENTS = [
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
+ 
   APP_SIDEBAR_NAV
 ]
 
@@ -87,6 +95,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     BrowserModule,
     CommonModule,
     AppRoutingModule,
+    
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
@@ -96,7 +105,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   ],
   declarations: [
     AppComponent,
-    AlertComponent,
+    
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
@@ -105,6 +114,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
    
     
   ],
+ 
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
@@ -116,7 +126,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   DummyService, 
   AstroavailabilityService,
   BannerService,
-  AlertService],
+  AstroconsolidatedService
+  ],
   
   bootstrap: [ AppComponent ]
 })

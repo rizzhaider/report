@@ -30,7 +30,7 @@ export class PackagesComponent implements OnInit {
   
 
   @ViewChild('packageModal') _packageModal: any;
-
+  @ViewChild('f') _form: NgForm;
   public allPackages: Package[];
   public filteredPackages: Package[];
   public currencyTypes: CurrencyType[];
@@ -98,6 +98,10 @@ export class PackagesComponent implements OnInit {
     this.packageItem.packageType = null;
     this.saveText = "Save";
     this.headerText = "Add New Package";
+    this._form.form.markAsPristine();
+    this._form.form.markAsUntouched();
+    this._form.form.updateValueAndValidity();
+
     this._packageModal.show();
   }
 
