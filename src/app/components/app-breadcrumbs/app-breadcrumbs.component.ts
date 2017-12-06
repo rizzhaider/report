@@ -9,7 +9,7 @@ import 'rxjs/add/operator/filter';
     <li class="breadcrumb-item"
         *ngIf="breadcrumb.label.title||breadcrumb.label.title&&last"
         [ngClass]="{active: last}">
-      <a *ngIf="!last" [routerLink]="breadcrumb.url">{{breadcrumb.label.title}}</a>
+      <a *ngIf="!last" [routerLink]="breadcrumb.url" >{{breadcrumb.label.title}}</a>
       <span *ngIf="last" [routerLink]="breadcrumb.url">{{breadcrumb.label.title}}</span>
     </li>
   </ng-template>`

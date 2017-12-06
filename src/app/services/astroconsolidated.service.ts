@@ -9,11 +9,12 @@ export class AstroconsolidatedService {
     private baseURL = environment.baseBZURI;
     // private getAstroConsolidatedURL = this.baseURL + '/loggTrackReportMonth';
        private getAstroConsolidatedURL  =' http://192.168.1.33:8080/astrolive/loggTrackReportMonth';
-    constructor(private http: Http) { }
+       private getAstroReportDayURL = 'http://192.168.1.33:8080/astrolive/loggTrackReportDay'
+       constructor(private http: Http) { }
     
-    getAstroConsolidatedReport(year:any, month:any) {
+    getAstroConsolidatedReport(year:any, month:any, astroId:any) {
         let _getAstroConsolidatedURL = this.getAstroConsolidatedURL;
-        _getAstroConsolidatedURL = _getAstroConsolidatedURL + '?year=' + year + '&month=' + month;
+        _getAstroConsolidatedURL = _getAstroConsolidatedURL + '?year=' + year + '&month=' + month + '&astroId=' + astroId ; 
         console.log(_getAstroConsolidatedURL);
         return this.http.get(_getAstroConsolidatedURL)
             .map((response: Response) => {
@@ -22,6 +23,19 @@ export class AstroconsolidatedService {
                 return data;
             }).catch((error: any) => Observable.throw(error.json().error || 'server error'));
 
+    }
+
+    getAstroReportDay(astroId:number, sessionDate:string){
+
+        let _getAstroReportDayURL = this.getAstroReportDayURL;
+        _getAstroReportDayURL = _getAstroReportDayURL + '?astroId=' + astroId + '&sessionDate=' + sessionDate ; 
+        console.log(_getAstroReportDayURL);
+        return this.http.get(_getAstroReportDayURL)
+            .map((response: Response) => {
+                let data = response.json();
+                console.log(data);
+                return data;
+            }).catch((error: any) => Observable.throw(error.json().error || 'server error'));
     }
 
 }

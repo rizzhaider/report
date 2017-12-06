@@ -1,17 +1,5 @@
 
-<div class="row">
-  <div class="col-xs-12 col-12 col-md-4 form-group">
-    <input type="text"
-           class="form-control"
-           [minDate]="minDate"
-           [maxDate]="maxDate"
-           #dp="bsDatepicker"
-           bsDatepicker [(bsValue)]="bsValue">
-  </div>
-  <div class="col-xs-12 col-12 col-md-3 form-group">
-    <button class="btn btn-success" (click)="dp.toggle()">Date Picker</button>
-  </div>
-</div>
+
 
 
 <div class="animated fadeIn">
@@ -24,7 +12,55 @@
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
-            <table class="table table-striped">
+              <div class="table-responsive"> 
+              <table class="table table-striped tableText">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Work Time</th>
+                      <th>DND Time</th>                    
+                      <th>Offline Time</th>
+                      <th>Online Time</th>
+                      <th>Total Call</th>
+                      <th>Received Call</th>
+                      <th>Missed Call</th>
+                      <th>Rejected Call</th>
+                      <th>Astro Disconnect Normal</th>
+                      <th>User Disconnect Normal</th>
+                      <th>Astro Disconnect Abrupt</th>
+                      <th>User Disconnect Abrupt</th>
+                      <th>Astro Unreachable</th>
+                      <th>User Package Expired</th>
+                      <th>Astro not pick</th>
+                                       
+                    </tr>
+                  </thead>
+                  <tbody>
+                      
+                      <tr *ngFor="let astromonthReport of astromonthReports">
+                        <td ><a (click)="onNavigate(astromonthReport)"  >{{astromonthReport?.logging_date}}</a></td>
+                        <td>{{astromonthReport?.work_time}}</td>
+                        <td>{{astromonthReport?.dnd_time}}</td>
+                        <td>{{astromonthReport?.offline_time}}</td>
+                        <td>{{astromonthReport?.online_time}}</td>
+                        <td>{{astromonthReport?.total_call}}</td>
+                        <td>{{astromonthReport?.received_call}}</td>
+                        <td>{{astromonthReport?.missed_call}}</td>
+                        <td>{{astromonthReport?.rejected_call}}</td>
+                        <td>{{astromonthReport?.call_disconnect_normal_astro}}</td>
+                        <td>{{astromonthReport?.call_disconnect_normal_user}}</td>
+                        <td>{{astromonthReport?.call_disconnect_abrupt_astro}}</td>
+                        <td>{{astromonthReport?.call_disconnect_abrupt_user}}</td>
+                        <td>{{astromonthReport?.call_disconnect_astro_unreachable}}</td>
+                        <td>{{astromonthReport?.call_disconnect_user_package_expired}}</td>
+                        <td>{{astromonthReport?.call_disconnect_astro_not_pick}}</td>
+                      </tr>
+                  
+                  </tbody>
+                </table> 
+               </div>
+
+            <!-- <table class="table table-striped">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -48,7 +84,7 @@
                 
                 </tr>
               </tbody>
-            </table> 
+            </table>  -->
            
           </div>
         </div>

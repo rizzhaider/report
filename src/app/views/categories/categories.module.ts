@@ -1,3 +1,4 @@
+import { AlertModule } from './../../alert/alert.module';
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,8 @@ import {FormsModule}   from '@angular/forms';
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    FormsModule
+    FormsModule,
+    AlertModule
   ],
   declarations: [ CategoriesComponent ],
   

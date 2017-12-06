@@ -1,3 +1,4 @@
+import { AlertService } from './services/alert.service';
 import { AstroconsolidatedService } from './services/astroconsolidated.service';
 
 
@@ -126,7 +127,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   DummyService, 
   AstroavailabilityService,
   BannerService,
-  AstroconsolidatedService
+  AstroconsolidatedService,
+  AlertService
   ],
   
   bootstrap: [ AppComponent ]

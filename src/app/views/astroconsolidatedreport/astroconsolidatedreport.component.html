@@ -41,7 +41,8 @@
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
-            <table class="table table-striped">
+              <div class="table-responsive"> 
+            <table class="table table-striped tableText">
               <thead>
                 <tr>
                   <th>Astro Name</th>
@@ -66,7 +67,7 @@
               <tbody>
                   
                   <tr *ngFor="let astromonthReport of astromonthReports">
-                    <td>{{astromonthReport?.astro_name}}</td>
+                    <td ><a (click)="onNavigate(astromonthReport)">{{astromonthReport?.astro_name}}</a></td>
                     <td>{{astromonthReport?.work_time}}</td>
                     <td>{{astromonthReport?.dnd_time}}</td>
                     <td>{{astromonthReport?.offline_time}}</td>
@@ -95,7 +96,8 @@
                 </tr> -->
               </tbody>
             </table> 
-           
+           </div>
+
           </div>
         </div>
       </div>
@@ -103,5 +105,6 @@
     </div>
     <!--/.row-->
   </div>
- 
-<!-- <router-outlet></router-outlet> -->
+<!--  
+<router-outlet ></router-outlet> -->
+

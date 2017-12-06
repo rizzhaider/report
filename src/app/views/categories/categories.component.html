@@ -1,7 +1,9 @@
 <div id="loader-wrapper" *ngIf="loading">
   <div id="loader"></div>
 </div>
-
+<div class="alertDiv">
+  <app-alert></app-alert>
+</div>
 <div class="animated fadeIn">
     <div class="row" *ngIf="!loading">
       
@@ -17,16 +19,19 @@
               <thead>
                 <tr>
                   <th>Category Name</th>
+                  <th>Logo</th>
                   <th>Order Id</th>
                   <th>IsActive</th>
                   <!-- <th>Created On</th>
                   <th>Modified On</th> -->
+                  <th>Update Logo</th>
                   <th>Update Category</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let cat of displayCategory" >
                   <td>{{cat?.catName}}</td>
+                  <td><img src="{{cat?.imageUrl}}" style="width:50px; height:50px;"></td>
                   <td>{{cat?.orderId}}</td>                  
                   <td>
                     <span class="badge "[ngClass] = "{'badge-success' : cat?.isActive, 'badge-danger': !cat?.isActive}" >{{cat?.isActive}}</span>
@@ -34,7 +39,10 @@
                   <!-- <td>{{cat?.createdOn}}</td>
                   <td>{{cat?.modifiedOn}}</td> -->
                   <td>
-                    <button class="btn btn-outline-primary btn-sm" type="button" (click)="updateCategory(cat)"><i class="fa fa-edit "></i>&nbsp; Update</button>
+                    <button class="btn btn-outline-primary btn-sm" type="button" (click)="onUpdateLogo(cat)"><i class="fa fa-edit "></i>&nbsp;Edit Logo</button>
+                    </td>
+                  <td>
+                    <button class="btn btn-outline-primary btn-sm" type="button" (click)="onUpdateCategory(cat)"><i class="fa fa-edit "></i>&nbsp; Update</button>
                     </td>
                 </tr>
               </tbody>
@@ -63,25 +71,45 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              <form  class="form-horizontal"(ngSubmit)="save(f)" #f="ngForm">
               <div class="modal-body">
-                  <form action="" class="form-horizontal" method="post">
+                  
                      
                       <div class="form-group row">
                         <label class="col-sm-5 col-form-label" for="catNameId">Category Name</label>
                         <div class="col-sm-6">
-                          <input class="form-control" id="catNameId" [(ngModel)]="categoryItem.catName" name="category-name" placeholder="Category Name" type="text">
+                          <input class="form-control" id="catNameId" [(ngModel)]="categoryItem.catName" name="category-name"
+                           placeholder="Category Name" type="text"  #catName="ngModel"  required autocomplete="off" [disabled] = "readOnly">
+                           <span class="help-block" *ngIf="!catName.valid && catName.touched">Please Enter Category Name</span>
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row" >
                           <label class="col-sm-5 col-form-label" for="OrderId">Order Id</label>
                           <div class="col-sm-6">
-                            <input class="form-control" id="OrderId" name="order-id" [(ngModel)]="categoryItem.orderId" placeholder="Only numeric" type="text">
+                            <input class="form-control" id="OrderId" name="order-id" [(ngModel)]="categoryItem.orderId"
+                             placeholder="Only numeric" type="text" #OrderId="ngModel" required autocomplete="off" [disabled] = "readOnly">
+                             <span class="help-block" *ngIf="!OrderId.valid && OrderId.touched">Please Order Id Name</span>
+                          </div>
+                        </div>
+                        <div class="form-group row" [ngClass] = "{'displayNone': readOnly}">
+                          <label class="col-sm-5 col-form-label" for="catNameId">Attched Logo Image</label>
+                          <div class="col-sm-6">
+                            <label class="btn btn-info btn-file">
+                              Choose File <input type="file" name="image_file" id="image_file" (change)="fileChange($event)" style="display: none;"/>
+                            </label>
+                            <span class="file_name">
+                              {{filename}}
+                            </span>
+                            <span class="file_size">
+                              {{filesize}}
+                            </span>
+                            
                           </div>
                         </div>
                         <div class="form-group row">
                               <label class="col-md-5 col-form-label" for="select">Select Parent Id</label>
                               <div class="col-md-6">
-                                <select class="form-control" id="ParentId" name="Parent-Id">
+                                <select class="form-control" id="ParentId" name="Parent-Id" [disabled] = "readOnly">
                                   <option value="0">Please select</option>
                                   <option value="1">Option #1</option>
                                   <option value="2">Option #2</option>
@@ -89,28 +117,79 @@
                                 </select>
                               </div>
                             </div>
-                        <div class="form-group row">
+                        <div class="form-group row" >
                             <label class="col-sm-5 col-form-label" for="upActive">Active</label>
                             <div class="col-sm-6">                              
-                                    <input id="upActive" name="inline-checkbox1" [checked]="categoryItem.isActive" type="checkbox">
+                                    <input id="upActive" name="inline-checkbox1" [(ngModel)] = "categoryItem.isActive" [checked]="categoryItem.isActive" type="checkbox">
                             </div>
                           </div>
                       
-                    </form>
+                    
               </div>
               <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" (click)="categoryModal.hide()">Close</button> -->
                 <!-- <button type="button" class="btn btn-info">Save</button> -->
-                <button class="btn btn-info" type="submit"><i class="fa fa-dot-circle-o"></i>                
+                <button class="btn btn-info" type="submit" [disabled]="!f.valid"><i class="fa fa-dot-circle-o"></i>                
                   <span>{{saveText}}</span>               
                 </button>
               </div>
+            </form>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
      
 
-      <!-- /categoryModal Modal end here-->
+      <!-- /updateLogoModal end here-->
+
+
+        <!-- ///////////////////categoryModal Modal start here-->
+    
+        <div bsModal #updateLogoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-info" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">{{headerText}}</h4>
+                <button type="button" class="close" (click)="updateLogoModal.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form  class="form-horizontal"(ngSubmit)="saveLogo(fLogo)" #fLogo="ngForm">
+              <div class="modal-body"> 
+                        <div class="form-group row" [ngClass] = "{'displayNone': readOnly}">
+                          <label class="col-sm-5 col-form-label" for="catNameId">Attched Logo Image</label>
+                          <div class="col-sm-6">
+                            <label class="btn btn-info btn-file">
+                              Choose File <input type="file" name="image_file" id="image_file" (change)="fileChange($event)" style="display: none;"/>
+                            </label>
+                            <span class="file_name">
+                              {{filename}}
+                            </span>
+                            <span class="file_size">
+                              {{filesize}}
+                            </span>
+                            
+                          </div>
+                        </div>
+                    
+                     
+                      
+                    
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" (click)="categoryModal.hide()">Close</button> -->
+                <!-- <button type="button" class="btn btn-info">Save</button> -->
+                <button class="btn btn-info" type="submit" [disabled]="!fLogo.valid"><i class="fa fa-dot-circle-o"></i>                
+                  <span>{{saveText}}</span>               
+                </button>
+              </div>
+            </form>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+     
+
+      <!-- /updateLogoModal  end here-->
+
 
 
   </div>
