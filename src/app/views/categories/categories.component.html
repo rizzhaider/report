@@ -10,16 +10,46 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-align-justify"></i> Category Display Order
-            <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddCategory()" >Add New Category</span>
+              <div class="row">
+                  <div class="col-md-3 noMarginpadding">
+                      <i class="fa fa-align-justify"></i>  Category Display Order
+                    </div>
+                   
+                      <div class="form-group col-md-3 noMarginpadding">                        
+                         
+                          <select  [(ngModel)]="selectedParnetId" class="form-control"  name="selectedParnetId" 
+                          (change) = "onChange()">
+                          <option  value = 0 >-- Select Parent Name --</option>
+                          <option *ngFor="let parenList of parenLists"  [ngValue]="parenList.id" > {{parenList.name}} </option>
+                          
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3 noMarginpadding">
+                        
+                          <select class="form-control" [(ngModel)] = "selectedStatus" name="selectedStatus" (change) = "onChange()">
+                            <option [ngValue] = null>-- Select Category Status --</option>                      
+                            <option [ngValue] = true>Active</option>
+                            <option [ngValue] = false>Inactive</option>
+                           
+                          </select>
+                        </div>
+                        <div class="col-md-3 noMarginpadding">
+                            <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddCategory()" >Add New Category</span>
+                        </div>
+    
+                        </div>
+
+
+           
           </div>
           <div class="card-body">
               <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped textCenterTable">
               <thead>
                 <tr>
                   <th>Category Name</th>
                   <th>Logo</th>
+                  <th>Parent Name</th>
                   <th>Order Id</th>
                   <th>IsActive</th>
                   <!-- <th>Created On</th>
@@ -32,6 +62,7 @@
                 <tr *ngFor="let cat of displayCategory" >
                   <td>{{cat?.catName}}</td>
                   <td><img src="{{cat?.imageUrl}}" style="width:50px; height:50px;"></td>
+                  <td>{{cat?.parentName}}</td>
                   <td>{{cat?.orderId}}</td>                  
                   <td>
                     <span class="badge "[ngClass] = "{'badge-success' : cat?.isActive, 'badge-danger': !cat?.isActive}" >{{cat?.isActive}}</span>
@@ -46,9 +77,16 @@
                     </td>
                 </tr>
               </tbody>
+
+            <tbody *ngIf="displayCategory.length == 0">
+                  <tr>
+                    <td colspan="7">No record found!</td>
+                  </tr>
+              </tbody>
             </table> 
             </div>
-            <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
+            
+            <pagination [hidden]="displayCategory.length == 0" [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
           </div>
         </div>
       </div>
@@ -79,7 +117,7 @@
                         <label class="col-sm-5 col-form-label" for="catNameId">Category Name</label>
                         <div class="col-sm-6">
                           <input class="form-control" id="catNameId" [(ngModel)]="categoryItem.catName" name="category-name"
-                           placeholder="Category Name" type="text"  #catName="ngModel"  required autocomplete="off" [disabled] = "readOnly">
+                           placeholder="Category Name" type="text"  #catName="ngModel"  required autocomplete="off">
                            <span class="help-block" *ngIf="!catName.valid && catName.touched">Please Enter Category Name</span>
                         </div>
                       </div>
@@ -87,16 +125,18 @@
                           <label class="col-sm-5 col-form-label" for="OrderId">Order Id</label>
                           <div class="col-sm-6">
                             <input class="form-control" id="OrderId" name="order-id" [(ngModel)]="categoryItem.orderId"
-                             placeholder="Only numeric" type="text" #OrderId="ngModel" required autocomplete="off" [disabled] = "readOnly">
+                             placeholder="Only numeric" type="text" #OrderId="ngModel" required autocomplete="off" >
                              <span class="help-block" *ngIf="!OrderId.valid && OrderId.touched">Please Order Id Name</span>
                           </div>
                         </div>
-                        <div class="form-group row" [ngClass] = "{'displayNone': readOnly}">
+                        <div class="form-group row" [ngClass] = "{'displayNone': noImage}">
                           <label class="col-sm-5 col-form-label" for="catNameId">Attched Logo Image</label>
                           <div class="col-sm-6">
                             <label class="btn btn-info btn-file">
-                              Choose File <input type="file" name="image_file" id="image_file" (change)="fileChange($event)" style="display: none;"/>
+                              Choose File <input type="file" name="image-file" id="image_file" (change)="fileChange($event)" #imgUpload style="display: none;" required autocomplete="off"/>
+                             
                             </label>
+                            <span class="help-block" *ngIf="image_file == null">Please attach Image</span>
                             <span class="file_name">
                               {{filename}}
                             </span>
@@ -107,16 +147,17 @@
                           </div>
                         </div>
                         <div class="form-group row">
-                              <label class="col-md-5 col-form-label" for="select">Select Parent Id</label>
-                              <div class="col-md-6">
-                                <select class="form-control" id="ParentId" name="Parent-Id" [disabled] = "readOnly">
-                                  <option value="0">Please select</option>
-                                  <option value="1">Option #1</option>
-                                  <option value="2">Option #2</option>
-                                  <option value="3">Option #3</option>
-                                </select>
-                              </div>
-                            </div>
+                          <label class="col-md-5 col-form-label" for="parentId">Select Parent Type</label>
+                          <div class="col-md-6">
+                            <select  [(ngModel)]="categoryItem.parentId" class="form-control"  name="categoryItem.parentId" 
+                              #parentType = "ngModel" >
+                              <option  [ngValue] = null >Please select</option>
+                              <option *ngFor="let parenList of parenLists"  [ngValue]="parenList.id" > {{parenList.name}} </option>
+                              
+                            </select>
+                            
+                          </div>
+                        </div>                       
                         <div class="form-group row" >
                             <label class="col-sm-5 col-form-label" for="upActive">Active</label>
                             <div class="col-sm-6">                              
@@ -129,15 +170,16 @@
               <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" (click)="categoryModal.hide()">Close</button> -->
                 <!-- <button type="button" class="btn btn-info">Save</button> -->
-                <button class="btn btn-info" type="submit" [disabled]="!f.valid"><i class="fa fa-dot-circle-o"></i>                
-                  <span>{{saveText}}</span>               
+                <button   class="btn btn-info" type="submit" [disabled]="!(f.valid && (noImage || image_file != null)) || loading">
+                  <span *ngIf="!loading"><i class="fa fa-dot-circle-o"></i> {{saveText}}</span>
+                  <span *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i><span class="sr-only">Loading...</span>{{savingText}}</span> 
                 </button>
+               
               </div>
             </form>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-     
+        </div><!-- /.modal -->    
 
       <!-- /updateLogoModal end here-->
 
@@ -155,12 +197,13 @@
               </div>
               <form  class="form-horizontal"(ngSubmit)="saveLogo(fLogo)" #fLogo="ngForm">
               <div class="modal-body"> 
-                        <div class="form-group row" [ngClass] = "{'displayNone': readOnly}">
+                        <div class="form-group row" [ngClass] = "{'displayNone': noImage}">
                           <label class="col-sm-5 col-form-label" for="catNameId">Attched Logo Image</label>
                           <div class="col-sm-6">
                             <label class="btn btn-info btn-file">
-                              Choose File <input type="file" name="image_file" id="image_file" (change)="fileChange($event)" style="display: none;"/>
+                              Choose File <input type="file" name="Logo_file" id="Logo_file" (change)="fileChange($event)" style="display: none;"/>
                             </label>
+                            <span class="help-block" *ngIf="image_file == null">Please attach Image</span>
                             <span class="file_name">
                               {{filename}}
                             </span>
@@ -178,8 +221,9 @@
               <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" (click)="categoryModal.hide()">Close</button> -->
                 <!-- <button type="button" class="btn btn-info">Save</button> -->
-                <button class="btn btn-info" type="submit" [disabled]="!fLogo.valid"><i class="fa fa-dot-circle-o"></i>                
-                  <span>{{saveText}}</span>               
+                <button class="btn btn-info" type="submit" [disabled]="!(image_file != null) || loading">               
+                  <span *ngIf="!loading"><i class="fa fa-dot-circle-o"></i> {{saveText}}</span>
+                  <span *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i><span class="sr-only">Loading...</span>{{savingText}}</span>                
                 </button>
               </div>
             </form>

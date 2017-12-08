@@ -30,6 +30,7 @@ export class CategoriesService {
     formData.append('name', dataObject.name);
     formData.append('orderNo', dataObject.orderNo);
     formData.append('active', dataObject.active);
+    formData.append('parentId', dataObject.parentId);
     formData.append('imageFile', dataObject.imageFile);
     return this.http.post(this.createCategoryURL, formData)
     .map((response: Response) => {
@@ -45,7 +46,7 @@ export class CategoriesService {
    updatecategory(categoryDetails: Category) {
     
      let _updateCategoryURL = this.updateCategoryURL;
-     _updateCategoryURL = _updateCategoryURL + '/' +  categoryDetails.id + '/' +  categoryDetails.catName + '/' + categoryDetails.orderId + '/' + categoryDetails.isActive   ; 
+     _updateCategoryURL = _updateCategoryURL + '/' + categoryDetails.id + '/' +  categoryDetails.catName + '/' + categoryDetails.orderId + '/' + categoryDetails.parentId + '/' + categoryDetails.isActive   ; 
    
      // let options = new RequestOptions({ headers: headers });
      
@@ -63,7 +64,7 @@ export class CategoriesService {
     _updateCategorylogoURL = _updateCategorylogoURL + '/' +  dataObject.id; 
   
     const formData = new FormData();    
-    formData.append('imageFile', dataObject.imageFile);
+    formData.append('imageFile', dataObject.image_file);
     return this.http.post(_updateCategorylogoURL, formData)
     .map((response: Response) => {
         let data = response.json();

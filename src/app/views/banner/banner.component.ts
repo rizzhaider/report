@@ -20,6 +20,7 @@ export class BannerComponent implements OnInit {
   smallnumPages = 0;
   itemsPerPage = 10;
   saveText = "";
+  savingText = "";
   headerText = "";
   public image_file: File;
   public filename: string = '';
@@ -89,6 +90,7 @@ export class BannerComponent implements OnInit {
     this.filesize = undefined;
     // this.selectedBannerTypeId = this.bannerItem.type;
     this.saveText = "Update";
+    this.savingText = "Udating..."
     this.headerText = "Update Banner"
     console.log(this.bannerItem); 
     // document.getElementById('image_file').nodeValue = '';   
@@ -106,6 +108,7 @@ export class BannerComponent implements OnInit {
     this.filename = '';
     this.filesize = undefined;
     this.saveText = "Save";
+    this.savingText = "Saving..."
     // this.selectedBannerTypeId = 0;
     this.headerText = "Add New Banner"
     console.log(this.bannerItem);
@@ -163,6 +166,7 @@ export class BannerComponent implements OnInit {
 
 
   createBanner(form: NgForm) {
+    this.loading = true;
     if (!this.validate())
       return;
     let bannerData = {
@@ -174,7 +178,7 @@ export class BannerComponent implements OnInit {
     this.bannerService.createBanner(bannerData).subscribe(
       data => {
         if (data.success) {
-          
+                    this.loading = false;
                     this.alertService.successTimedOut("Banner has been added", 3000);
                     this._bannerModal.hide();
                     this.getBannerList();
@@ -183,6 +187,7 @@ export class BannerComponent implements OnInit {
                   }
       },
       error => {
+      this.loading = false;
       this.alertService.errorTimedOut(error, 3000);
       });
 
@@ -190,6 +195,7 @@ export class BannerComponent implements OnInit {
 
 
   updateBanner(form: NgForm) {
+
     this.loading = true;
     // if (!this.validate())
     // return;
@@ -198,6 +204,7 @@ export class BannerComponent implements OnInit {
       data => {
 
         if (data.success) {
+          this.loading = false;
           this.alertService.successTimedOut("Package has been updated", 3000);
           this._bannerModal.hide();
           this.getBannerList();

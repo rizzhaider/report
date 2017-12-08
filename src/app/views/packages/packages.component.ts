@@ -21,6 +21,7 @@ export class PackagesComponent implements OnInit {
   itemsPerPage = 10;
 
   saveText = "";
+  savingText = "";
   headerText = "";
 
   public readOnly: boolean;
@@ -87,7 +88,8 @@ export class PackagesComponent implements OnInit {
     this.readOnly = true;
     this.packageItem = Object.assign({}, _package);
     this.saveText = "Update";
-    this.headerText = "Update Package"
+    this.savingText = "Updating...";
+    this.headerText = "Update Package";
     this._packageModal.show();
 
   }
@@ -97,6 +99,7 @@ export class PackagesComponent implements OnInit {
     this.packageItem.currencyType = null;
     this.packageItem.packageType = null;
     this.saveText = "Save";
+    this.savingText = "Saving..."
     this.headerText = "Add New Package";
     this._form.form.markAsPristine();
     this._form.form.markAsUntouched();
@@ -124,19 +127,21 @@ export class PackagesComponent implements OnInit {
       data => {
 
         if (data.success) {
-
+          this.loading = false;
           this.alertService.successTimedOut("Package has been added", 3000);
           this._packageModal.hide();
           this.getPackagesList();
         } else {
+          this.loading = false;
           this.alertService.errorTimedOut("Package Cannot be added at the moment", 3000);
         }
-        this.loading = false;
+       
 
       },
       error => {
-        this.alertService.error(error);
         this.loading = false;
+        this.alertService.error(error);
+        
 
       });
 
@@ -154,19 +159,20 @@ export class PackagesComponent implements OnInit {
       data => {
 
         if (data.success) {
-
+          this.loading = false;
           this.alertService.successTimedOut("Package has been updated", 3000);
           this._packageModal.hide();
           this.getPackagesList();
         } else {
+          this.loading = false;
           this.alertService.errorTimedOut("Package Cannot be updated at the moment", 3000);
         }
-        this.loading = false;
-        console.log(data);
+       
       },
       error => {
-        this.alertService.errorTimedOut(error, 3000);
         this.loading = false;
+        this.alertService.errorTimedOut(error, 3000);
+       
 
       });
 

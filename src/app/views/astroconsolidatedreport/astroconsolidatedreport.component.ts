@@ -89,7 +89,7 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
     let navigationExtras: NavigationExtras = {
       queryParams: { year: this.selectedYear, month:this.selectedMonth },
       skipLocationChange: true,
-     
+      
     };
     this.router.navigate(['/astroconsolidatedreport', monthReport.astroid], navigationExtras,   );
   }
