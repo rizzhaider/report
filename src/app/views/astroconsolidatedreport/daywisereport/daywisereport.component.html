@@ -12,32 +12,66 @@
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Time Validty</th>
-                  <th>RockMrp</th>                    
-                  <th>Emrp</th>
-                  <th>Package Name</th>
-                  <th>IsActive</th>
-                                   
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let dummyDay of dayWiseData">
-                   
-                  <td><a>{{ dummyDay.name }}</a></td>
-                  <td>{{dummyDay.status}}</td> 
-                  <td>dfdfgfdg </td> 
-                  <td>uoi</td>
-                  <td>koi</td>                
-                  <td>iop</td>
+               <div class="row" *ngFor="let sessionTimeListreport of timeLists">
+                 <div class="col-sm-12 col-md-12">
+                    <h6>Session:1 </h6>
+                    <h6>
+                        <small class="pull-left"><strong>Login Time: {{sessionTimeListreport?.sessionTimeList.sessionStartTime}}</strong></small>
+                        <small class="pull-right"><strong>Logout Time: {{sessionTimeListreport?.sessionTimeList.sessionEndTime}}</strong></small>
+                    </h6>
+                    <br>
+                 </div>
+                 <div class="col-sm-12 col-md-6">                  
+                    <table class="table table-responsive-sm table-bordered textCenterTable">
+                        <thead >
+                          <tr>
+                            <th colspan="2">Offline Duration</th>                      
+                          </tr>
+                          <tr>
+                              <th colspan>Start Session</th> 
+                              <th colspan>End Session</th>                       
+                            </tr>
+                        </thead>
+                        <tbody>                   
+                          <tr *ngFor="let offlineTimeList of (sessionTimeListreport?.sessionTimeList.offlineTimeList)"> 
+                            <td class="text-center">
+                                {{offlineTimeList.offlineStartTime}}
+                            </td>
+                            <td>
+                                {{offlineTimeList.offlineEndTime}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                 
-                </tr>
-              </tbody>
-            </table> 
-           
+                 </div>
+                 <div class="col-sm-12 col-md-6">
+                    <table class="table table-responsive-sm table-bordered textCenterTable">
+                        <thead>
+                          <tr>
+                            <th colspan="2">DND Duration</th>                      
+                          </tr>
+                          <tr>
+                              <th colspan>Start Session</th> 
+                              <th colspan>End Session</th>                       
+                            </tr>
+                        </thead>
+                        <tbody>                   
+                          <tr *ngFor="let dndTimeList of (sessionTimeListreport?.sessionTimeList.dndTimeList)"> 
+                            <td class="text-center">
+                               {{dndTimeList.dndStartTime}}
+                            </td>
+                            <td>
+                                {{dndTimeList.dndEndTime}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                
+                 </div>
+               </div>
+
+            
           </div>
         </div>
       </div>

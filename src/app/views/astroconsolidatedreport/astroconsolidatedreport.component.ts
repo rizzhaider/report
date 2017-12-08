@@ -91,7 +91,7 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
       skipLocationChange: true,
       
     };
-    this.router.navigate(['/astroconsolidatedreport', monthReport.astroid], navigationExtras,   );
+    this.router.navigate(['/astroconsolidatedreport', monthReport.astroid, this.selectedYear, this.selectedMonth ]);
   }
 
 }

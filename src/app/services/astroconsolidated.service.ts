@@ -8,8 +8,8 @@ import 'rxjs/add/operator/catch'
 export class AstroconsolidatedService {
     private baseURL = environment.baseBZURI;
     // private getAstroConsolidatedURL = this.baseURL + '/loggTrackReportMonth';
-       private getAstroConsolidatedURL  =' http://192.168.1.33:8080/astrolive/loggTrackReportMonth';
-       private getAstroReportDayURL = 'http://192.168.1.33:8080/astrolive/loggTrackReportDay'
+       private getAstroConsolidatedURL  =' http://restdev.rockstand.in/astrolive/loggTrackReportMonth';
+       private getAstroReportDayURL = 'http://restdev.rockstand.in/astrolive/loggTrackReportDay'
        constructor(private http: Http) { }
     
     getAstroConsolidatedReport(year:any, month:any, astroId:any) {

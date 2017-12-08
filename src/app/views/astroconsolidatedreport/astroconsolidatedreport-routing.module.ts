@@ -23,7 +23,7 @@ const routes: Routes = [
         }
       },
       {
-        path: ':astroid',
+        path: ':astroid/:selectedYear/:selectedMonth',
         
         data: {
           title: 'Astro Monthly Report',
@@ -41,7 +41,7 @@ const routes: Routes = [
             
           },
           {
-            path: ':astroid',
+            path: ':astroid/:sessiondate',
             component: DaywisereportComponent,
             data: {
               title: 'Astro Day Wise Report'

@@ -19,7 +19,8 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
   queryParams?: Params | null
   fragment?: string
   preserveQueryParams?: boolean
- 
+  selectedYear:number;
+  selectedMonth:number;
   preserveFragment?: boolean
   skipLocationChange?: boolean
   replaceUrl?: boolean  
@@ -29,22 +30,23 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
  
   ngOnInit() {
    
-    const selectedYear = +this.route.snapshot.queryParams['year'];
-    const selectedMonth = +this.route.snapshot.queryParams['month'];       
+         
     const astroid = +this.route.snapshot.params['astroid'];
+    this.selectedYear = +this.route.snapshot.params['selectedYear'];
+    this.selectedMonth = +this.route.snapshot.params['selectedMonth'];  
     
    
     //this.monthlydata = this.astroconsolidatedService.getAstroConsolidatedReport(this.selectedYear, this.selectedMonth, astroid);
     this.route.params.subscribe(
       (params: Params) => {
-        this.getAstroconsolidatedList(selectedYear, selectedMonth, astroid);
+        this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, astroid);
       }
 
     );
     
     console.log(astroid);
-    console.log(selectedYear);
-    console.log(selectedMonth);
+    console.log(this.selectedYear);
+    console.log(this.selectedMonth);
    
    
   }
@@ -70,6 +72,6 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
       skipLocationChange: true,
      
     };
-    this.router.navigate([ '/astroconsolidatedreport',monthReport.astroid, monthReport.astroid],  navigationExtras  );
+    this.router.navigate([ '/astroconsolidatedreport',monthReport.astroid, this.selectedYear, this.selectedMonth, monthReport.astroid, monthReport.logging_date]  );
   }
 }
