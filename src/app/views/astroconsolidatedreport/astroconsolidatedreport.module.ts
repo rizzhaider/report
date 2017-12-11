@@ -1,3 +1,5 @@
+import { TimeDurationPipe } from './../../shared/pipes/time-duration.pipe';
+import { MomentModule } from 'angular2-moment';
 
 import { DaywisereportComponent } from './daywisereport/daywisereport.component';
 import { AstroconsolidatedreportRoutingModule } from './astroconsolidatedreport-routing.module';
@@ -16,10 +18,11 @@ import { MonthlydayreportComponent } from './monthlydayreport/monthlydayreport.c
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    FormsModule
+    FormsModule,
+    MomentModule
   ],
   declarations: [ AstroconsolidatedreportComponent, 
-    MonthlydayreportComponent,DaywisereportComponent ],
+    MonthlydayreportComponent,DaywisereportComponent, TimeDurationPipe ],
 
  
   

@@ -69,6 +69,11 @@ export const routes: Routes = [
         loadChildren: './views/banner/banner.module#BannerModule',
         
       },
+      {
+        path: 'paymentmethod',
+        loadChildren: './views/paymentmethod/paymentmethod.module#PaymentmethodModule',
+        
+      },
       
     ]
   },

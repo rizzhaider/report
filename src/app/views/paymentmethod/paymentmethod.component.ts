@@ -9,12 +9,12 @@ import { PackagesService } from './../../services/packages.service';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 @Component({
 
-  templateUrl: './packages.component.html',
+  templateUrl: './paymentmethod.component.html',
   providers: [ObjectFilterPipe]
 
 
 })
-export class PackagesComponent implements OnInit {
+export class PaymentmethodComponent implements OnInit {
   totalItems = 0;
   currentPage = 0;
   smallnumPages = 0;
@@ -22,7 +22,6 @@ export class PackagesComponent implements OnInit {
   saveText = "";
   savingText = "";
   headerText = "";
-
   public readOnly: boolean;
   public selectedPackageType = 0;
   public selectedCurrencyType = 0;
@@ -89,9 +88,6 @@ export class PackagesComponent implements OnInit {
     this.saveText = "Update";
     this.savingText = "Updating...";
     this.headerText = "Update Package";
-    this._form.form.markAsPristine();
-    this._form.form.markAsUntouched();
-    this._form.form.updateValueAndValidity();
     this._packageModal.show();
 
   }

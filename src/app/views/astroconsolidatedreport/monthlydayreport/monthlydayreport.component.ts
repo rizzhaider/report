@@ -1,3 +1,4 @@
+
 import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
 import { Astromonthreport } from './../../../shared/model/astro-month-report.model';
 
@@ -10,28 +11,41 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-monthlydayreport',
   templateUrl: './monthlydayreport.component.html',
-  
+
  
 })
 export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
-
-  relativeTo?: ActivatedRoute | null
-  queryParams?: Params | null
-  fragment?: string
-  preserveQueryParams?: boolean
-  selectedYear:number;
-  selectedMonth:number;
+ 
+  loading:boolean = false;
+  public astroid:number;
+  selectedYear:number = null;
+  selectedMonth:number = null;
   preserveFragment?: boolean
   skipLocationChange?: boolean
   replaceUrl?: boolean  
   monthlydata: {};
+  years = Array(100).fill(0, 0, 100).map((x, i) => i + 2000);
+  months = [
+    {name: "January", value: 1 },
+    {name: "February", value: 2 },
+    {name: "March", value: 3 },
+    {name: "April", value: 4 },
+    {name: "May", value: 5 },
+    {name: "June", value: 6 },
+    {name: "July", value: 7 },
+    {name: "August", value: 8 },
+    {name: "September", value: 9 },
+    {name: "October", value: 10 },
+    {name: "November", value: 11 },
+    {name: "December", value: 12 },
+  ]
   public astromonthReports:Astromonthreport[] = [];
   constructor( private route: ActivatedRoute, private router: Router, private astroconsolidatedService :AstroconsolidatedService) {}
  
   ngOnInit() {
    
          
-    const astroid = +this.route.snapshot.params['astroid'];
+    this.astroid = +this.route.snapshot.params['astroid'];
     this.selectedYear = +this.route.snapshot.params['selectedYear'];
     this.selectedMonth = +this.route.snapshot.params['selectedMonth'];  
     
@@ -39,12 +53,12 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
     //this.monthlydata = this.astroconsolidatedService.getAstroConsolidatedReport(this.selectedYear, this.selectedMonth, astroid);
     this.route.params.subscribe(
       (params: Params) => {
-        this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, astroid);
+        this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
       }
 
     );
     
-    console.log(astroid);
+    console.log(this.astroid);
     console.log(this.selectedYear);
     console.log(this.selectedMonth);
    
@@ -58,13 +72,26 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
     
   }
   getAstroconsolidatedList(year:any, month:any, atroId:any){
+    this.loading = true;
     this.astroconsolidatedService.getAstroConsolidatedReport(year, month, atroId).subscribe(      
             data => {
+              this.loading = false;
              this.astromonthReports = data.loggingtrackmonthlist;
              console.log(this.astromonthReports)
             }
           )
   }
+
+
+  onYearChnage(onSelectYear:any){
+    this.selectedYear = onSelectYear;
+    this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
+    }
+    onMonthChange(onSelectMonth:any){
+      this.selectedMonth = onSelectMonth;
+      this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
+    }
+
   onNavigate(monthReport:Astromonthreport){
     
     let navigationExtras: NavigationExtras = {

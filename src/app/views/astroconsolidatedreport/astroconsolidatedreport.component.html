@@ -1,9 +1,6 @@
-<!-- <div id="loader-wrapper" *ngIf="loading">
+<div id="loader-wrapper" *ngIf="loading">
   <div id="loader"></div>
-</div> -->
-
-<br>
- 
+</div>
 
 <div class="animated fadeIn">
     <div class="row">
@@ -42,7 +39,7 @@
           </div>
           <div class="card-body">
               <div class="table-responsive"> 
-            <table class="table table-striped tableText">
+            <table class="table table-striped tableText textCenterTable">
               <thead>
                 <tr>
                   <th>Astro Name</th>
@@ -67,11 +64,11 @@
               <tbody>
                   
                   <tr *ngFor="let astromonthReport of astromonthReports">
-                    <td ><a (click)="onNavigate(astromonthReport)">{{astromonthReport?.astro_name}}</a></td>
-                    <td>{{astromonthReport?.work_time}}</td>
-                    <td>{{astromonthReport?.dnd_time}}</td>
-                    <td>{{astromonthReport?.offline_time}}</td>
-                    <td>{{astromonthReport?.online_time}}</td>
+                    <td ><a class="hoverLink" (click)="onNavigate(astromonthReport)">{{astromonthReport?.astro_name}}</a></td>
+                    <td>{{astromonthReport?.work_time | timedurationpipe}}</td>
+                    <td>{{astromonthReport?.dnd_time | timedurationpipe}}</td>
+                    <td>{{astromonthReport?.offline_time | timedurationpipe}}</td>
+                    <td>{{astromonthReport?.online_time | timedurationpipe}}</td>
                     <td>{{astromonthReport?.total_call}}</td>
                     <td>{{astromonthReport?.received_call}}</td>
                     <td>{{astromonthReport?.missed_call}}</td>
@@ -95,6 +92,11 @@
                 
                 </tr> -->
               </tbody>
+              <tbody *ngIf="astromonthReports.length == 0">
+                <tr>
+                  <td colspan="16">No record found!</td>
+                </tr>
+            </tbody>
             </table> 
            </div>
 

@@ -1,4 +1,6 @@
-
+<div id="loader-wrapper" *ngIf="loading">
+    <div id="loader"></div>
+  </div>
 
 
 
@@ -8,12 +10,37 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-align-justify"></i> Astro Monthly Report
+              <div class="row">
+                  <div class="col-md-3 noMarginpadding">
+                      <i class="fa fa-align-justify"></i>  Astro Monthly Report
+                    </div>
+                   
+                      <div class="form-group col-md-3 noMarginpadding">
+                        
+                          <select  [(ngModel)]="selectedYear" class="form-control" name="selectedYear" 
+                           (change) = "onYearChnage(selectedYear)">
+                            <option [ngValue] = null> -- Select Year -- </option>
+                            <option *ngFor="let year of years"  [ngValue]="year"> {{year}} </option>
+                            
+                          </select>
+                      </div>
+                      <div class="form-group col-md-3 noMarginpadding">
+                        
+                          <select class="form-control" [(ngModel)] = "selectedMonth" name="selectedMonth" (change) = "onMonthChange(selectedMonth)">
+                          
+                              <option [ngValue] = null> -- Select Month -- </option>
+                              <option *ngFor="let month of months"  [ngValue]="month.value"> {{month.name}} </option>
+                          </select>
+                        </div>
+                      
+    
+                     </div>
+            
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
               <div class="table-responsive"> 
-              <table class="table table-striped tableText">
+              <table class="table table-striped tableText textCenterTable">
                   <thead>
                     <tr>
                       <th>Date</th>
@@ -38,11 +65,11 @@
                   <tbody>
                       
                       <tr *ngFor="let astromonthReport of astromonthReports">
-                        <td ><a (click)="onNavigate(astromonthReport)"  >{{astromonthReport?.logging_date}}</a></td>
-                        <td>{{astromonthReport?.work_time}}</td>
-                        <td>{{astromonthReport?.dnd_time}}</td>
-                        <td>{{astromonthReport?.offline_time}}</td>
-                        <td>{{astromonthReport?.online_time}}</td>
+                        <td ><a class="hoverLink" (click)="onNavigate(astromonthReport)"  >{{astromonthReport?.logging_date | date:'MMM d, y'}}</a></td>
+                        <td>{{astromonthReport?.work_time | timedurationpipe}}</td>
+                        <td>{{astromonthReport?.dnd_time | timedurationpipe}}</td>
+                        <td>{{astromonthReport?.offline_time | timedurationpipe}}</td>
+                        <td>{{astromonthReport?.online_time | timedurationpipe}}</td>
                         <td>{{astromonthReport?.total_call}}</td>
                         <td>{{astromonthReport?.received_call}}</td>
                         <td>{{astromonthReport?.missed_call}}</td>
@@ -54,9 +81,15 @@
                         <td>{{astromonthReport?.call_disconnect_astro_unreachable}}</td>
                         <td>{{astromonthReport?.call_disconnect_user_package_expired}}</td>
                         <td>{{astromonthReport?.call_disconnect_astro_not_pick}}</td>
+                        
                       </tr>
                   
                   </tbody>
+                  <tbody *ngIf="astromonthReports.length == 0">
+                    <tr>
+                      <td colspan="16">No record found!</td>
+                    </tr>
+                </tbody>
                 </table> 
                </div>
 

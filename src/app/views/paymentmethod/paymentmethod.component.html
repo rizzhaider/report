@@ -1,0 +1,207 @@
+<div id="loader-wrapper" *ngIf="loading">
+    <div id="loader"></div>
+  </div>
+  <div class="alertDiv">
+    <app-alert></app-alert>
+  </div>
+  
+  <div class="animated fadeIn">
+      <div class="row" *ngIf="!loading">
+        
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+              <div class="col-md-2 noMarginpadding">
+                <i class="fa fa-align-justify"></i> Package Display Order
+              </div>
+               
+                <div class="form-group col-md-3 noMarginpadding">
+                
+                    <select  [(ngModel)]="selectedPackageType" class="form-control" name="selectedPackageType" (change) = "onChange()">
+                        <option value = 0 >-- Select Package Type --</option>
+                        <option  *ngFor="let packageType of packageTypes"  [ngValue]="packageType.id" > {{packageType.name}} </option>
+                        
+                      </select>
+                </div>
+                <div class="form-group col-md-3 noMarginpadding">
+                  
+                    <select [(ngModel)]="selectedCurrencyType" class="form-control" name="selectedCurrencyType" (change) = "onChange()">
+                        <option   value = 0 >-- Select Currency Type --</option>
+                        
+                        <option  *ngFor="let currencyType of currencyTypes"  [ngValue]="currencyType.id" > {{currencyType.name}} </option>
+                        
+                      </select>
+                </div>
+                <div class="form-group col-md-2 noMarginpadding">
+                  
+                    <select class="form-control" [(ngModel)] = "selectedStatus" name="selectedStatus" (change) = "onChange()">
+                      <option [ngValue] = null>-- Select Package Status --</option>                      
+                      <option [ngValue] = true>Active</option>
+                      <option [ngValue] = false>Inactive</option>
+                     
+                    </select>
+                  </div>
+              <div class="col-md-2 noMarginpadding">
+                <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span>
+              </div>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+              <table class="table table-striped textCenterTable">
+                <thead>
+                  <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Validity<small>(in mins)</small> </th>
+                    <th>Type</th>                    
+                    <th>Price</th>
+                    <th>Currency</th>
+                    <!-- <th>Package Name</th> -->
+                    <th>IsActive</th>
+                   
+                    <th>Updated On</th> 
+                    <th>Update Package</th>                   
+                  </tr>
+                </thead>
+                <tbody *ngIf = "displayPackages.length != 0">
+                  <tr *ngFor="let package of displayPackages" >
+                    <!-- <td>{{package?.id}}</td> -->
+                    <td>{{package?.timeValidity}}</td> 
+                    <td>{{package?.packageTypeName}}</td> 
+                    <td>{{package?.emrp}}</td>
+                    <td>{{package?.currencyTypeName}}</td>
+                    <!-- <td>{{package?.packageName}}</td>                 -->
+                    <td>
+                      <span class="badge "[ngClass] = "{'badge-success' : package?.isActive, 'badge-danger': !package?.isActive}" >{{package?.isActive}}</span>
+                    </td>
+                  
+                   <td>{{package?.updatedOn | date:'dd-MM-yyyy'}}</td>
+                    <td>
+                      <button class="btn btn-outline-primary btn-sm" type="button" (click)="onUpdatePackage(package)"><i class="fa fa-edit "></i>&nbsp; Update</button>
+                      </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf = "displayPackages.length == 0">
+                  <tr>
+                    <td colspan="7">No record found!</td>
+                  </tr>
+                </tbody>
+              </table> 
+              </div>
+              <pagination [hidden]="displayPackages.length == 0" [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>              
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+      <!--/.row-->
+  
+  
+  
+  
+  
+        <!-- ///////////////////categoryModal Modal start here-->
+      
+        <div bsModal #packageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-info" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{headerText}}</h4>
+                  <button type="button" class="close" (click)="packageModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <form class="form-horizontal" (ngSubmit)="save(f)" #f="ngForm" >
+                <div class="modal-body">
+                    
+                       
+                        <div class="form-group row">
+                          <label class="col-sm-5 col-form-label" for="timeValidityID">Time Validity</label>
+                          <div class="col-sm-6">
+                            <input class="form-control" id="timeValidityID" [(ngModel)]="packageItem.timeValidity" name="Time-Validity" placeholder="Time Validity" 
+                            type="text"  [readonly] = "readOnly"  #timevalidity="ngModel" required autocomplete="off">
+                            <span class="help-block" *ngIf="!timevalidity.valid && timevalidity.touched">Please Enter Time validity</span>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-5 col-form-label" for="RockMrpId">RockMrp</label>
+                            <div class="col-sm-6">
+                              <input class="form-control" id="RockMrpId" name="Rock-mrp" [(ngModel)]="packageItem.rockMrp" 
+                              placeholder="Only numeric" type="text" [readonly] = "readOnly" #rockMrp="ngModel" required autocomplete="off" >
+                              <span class="help-block" *ngIf="!rockMrp.valid && rockMrp.touched">Please Enter RockMrp</span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                              <label class="col-sm-5 col-form-label" for="EmrpId">Emrp</label>
+                              <div class="col-sm-6">
+                                <input class="form-control" id="EmrpId" name="E-Mrp" [(ngModel)]="packageItem.emrp" 
+                                placeholder="Only numeric" type="text" [readonly] = "readOnly" #eMrp = "ngModel"  required autocomplete="off">
+                                <span class="help-block" *ngIf="!eMrp.valid && eMrp.touched">Please Enter Emrp</span>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-md-5 col-form-label" for="bannertypeId">Select Currency Type</label>
+                              <div class="col-md-6">
+                                <select  [(ngModel)]="packageItem.currencyType" class="form-control" name="packageItem.currencyType" [disabled] = "readOnly" required 
+                                #currencyType = "ngModel" >
+                                  <option [ngValue]=null>Please select</option>
+                                  <option  *ngFor="let currencyType of currencyTypes"  [ngValue]="currencyType.id" > {{currencyType.name}} </option>
+                                  
+                                </select>
+                                <span class="help-block" *ngIf="!currencyType.valid && currencyType.touched">Please Select Currency Type</span>
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label class="col-md-5 col-form-label" for="bannertypeId">Select Package Type</label>
+                              <div class="col-md-6">
+                                <select  [(ngModel)]="packageItem.packageType" class="form-control" name="packageItem.packageType" [disabled] = "readOnly"
+                                required #packageType = "ngModel">
+                                  <option [ngValue]=null>Please select</option>
+                                  <option  *ngFor="let packageType of packageTypes"  [ngValue]="packageType.id" > {{packageType.name}} </option>
+                                  
+                                </select>
+                                <span class="help-block" *ngIf="!packageType.valid && packageType.touched ">Please Select Package Type</span>
+                              </div>
+                            </div>
+
+                          <!-- <div class="form-group row">
+                                <label class="col-md-5 col-form-label" for="select">Currency Type</label>
+                                <div class="col-md-6">
+                                  <select class="form-control" id="ParentId" name="Parent-Id">
+                                    <option value="0">Please select</option>
+                                    <option value="1" >{{packageItem.currencyType}}</option>
+                                  
+                                  </select>
+                                </div>
+                              </div> -->
+                          <div class="form-group row">
+                              <label class="col-sm-5 col-form-label" for="PackageActive">Active</label>
+                              <div class="col-sm-6">                              
+                                      <input id="PackageActive" name="inline-checkbox2" [(ngModel)] = "packageItem.isActive" [checked]="packageItem.isActive" type="checkbox">
+                              </div>
+                            </div>
+                        
+                     
+                </div>
+                <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-secondary" (click)="packageModal.hide()">Close</button> -->
+                  <!-- <button type="button" class="btn btn-info">Save</button> -->
+                  <button class="btn btn-info" type="submit" [disabled]="!f.valid || loading">               
+                    <span *ngIf="!loading"><i class="fa fa-dot-circle-o"></i> {{saveText}}</span>
+                    <span *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i><span class="sr-only">Loading...</span>{{savingText}}</span>                                          
+                  </button>
+                </div>
+              </form>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+       
+  
+        <!-- /categoryModal Modal end here-->
+  
+  
+    </div>
+    

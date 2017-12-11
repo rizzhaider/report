@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: 'dailyUp.component.html'
 })
 export class DailyUpComponent implements OnInit  {
-   loading : boolean = false;;
+   loading : boolean = false;
    bsValue: Date;
    maxDate: Date;
   

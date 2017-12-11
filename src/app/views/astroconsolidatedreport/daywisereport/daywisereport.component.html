@@ -1,23 +1,53 @@
 
-
+<div id="loader-wrapper" *ngIf="loading">
+    <div id="loader"></div>
+  </div>
 
 
 <div class="animated fadeIn">
     <div class="row">
-      
+       
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-align-justify"></i> Astro Daily Report
+
+              <div class="row">
+                  <div class="col-md-3 noMarginpadding">
+                      <i class="fa fa-align-justify"></i>   Astro Daily Report
+                    </div>
+                  
+                      <div class="form-group col-md-3 noMarginpadding">
+                          <div class="form-group noMarginpadding">
+                             
+                              <div class="controls" >
+                                <div class="input-group">
+                                  <span class="input-group-addon" (click)="dp.toggle()"><i class="fa fa-calendar"></i></span>
+                                  <input class="form-control"  type="text"
+                                  class="form-control"
+                                  [minDate]="minDate"
+                                  [maxDate]="maxDate"                                 
+                                  #dp="bsDatepicker"                
+                                  value = "{{bsValueStr}}"  
+                                              
+                                  bsDatepicker [(bsValue)]="bsValue" (bsValueChange) = "onChangeGetDetail()" readonly>
+                                  
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                    
+                      
+    
+                     </div>
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
-               <div class="row" *ngFor="let sessionTimeListreport of timeLists">
+               <div class="row" *ngFor="let sessionTimeListreport of timeLists, let i = index">
                  <div class="col-sm-12 col-md-12">
-                    <h6>Session:1 </h6>
+                    <h6>Session: {{i+1}}  </h6>
                     <h6>
-                        <small class="pull-left"><strong>Login Time: {{sessionTimeListreport?.sessionTimeList.sessionStartTime}}</strong></small>
-                        <small class="pull-right"><strong>Logout Time: {{sessionTimeListreport?.sessionTimeList.sessionEndTime}}</strong></small>
+                        <small class="pull-left"><strong>Login Time: {{sessionTimeListreport?.sessionTimeList.sessionStartTime | date:'MMM d, y, h:mm:ss a'}}</strong></small>
+                        <small class="pull-right"><strong>Logout Time: {{sessionTimeListreport?.sessionTimeList.sessionEndTime | date:'MMM d, y, h:mm:ss a'}}</strong></small>
                     </h6>
                     <br>
                  </div>
@@ -35,13 +65,18 @@
                         <tbody>                   
                           <tr *ngFor="let offlineTimeList of (sessionTimeListreport?.sessionTimeList.offlineTimeList)"> 
                             <td class="text-center">
-                                {{offlineTimeList.offlineStartTime}}
+                                {{offlineTimeList.offlineStartTime | date:'MMM d, y, h:mm:ss a'}}
                             </td>
                             <td>
-                                {{offlineTimeList.offlineEndTime}}
+                                {{offlineTimeList.offlineEndTime | date:'MMM d, y, h:mm:ss a'}}
                             </td>
                           </tr>
                         </tbody>
+                        <tbody *ngIf="(sessionTimeListreport.sessionTimeList.offlineTimeList).length == 0">
+                          <tr>
+                            <td colspan="2">No record found!</td>
+                          </tr>
+                      </tbody>
                       </table>
                 
                  </div>
@@ -59,18 +94,27 @@
                         <tbody>                   
                           <tr *ngFor="let dndTimeList of (sessionTimeListreport?.sessionTimeList.dndTimeList)"> 
                             <td class="text-center">
-                               {{dndTimeList.dndStartTime}}
+                               {{dndTimeList.dndStartTime | date:'MMM d, y, h:mm:ss a'}}
                             </td>
                             <td>
-                                {{dndTimeList.dndEndTime}}
+                                {{dndTimeList.dndEndTime | date:'MMM d, y, h:mm:ss a'}}
                             </td>
                           </tr>
                         </tbody>
+                        <tbody *ngIf="(sessionTimeListreport.sessionTimeList.dndTimeList).length == 0">
+                          <tr>
+                            <td colspan="2">No record found!</td>
+                          </tr>
+                      </tbody>
                       </table>
                 
                  </div>
                </div>
-
+               <div class="row" *ngIf = "timeLists.length == 0">
+                 <div class="col-sm-12 col-md-12">
+                   <p class="text-center">No record found!</p>
+                 </div>
+               </div>
             
           </div>
         </div>

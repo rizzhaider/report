@@ -23,7 +23,7 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
   skipLocationChange?: boolean
   replaceUrl?: boolean
 
-
+  loading : boolean = false;
   public selectedYear:  any = null;
   public selectedMonth:any = null;
   public astromonthReports:Astromonthreport[] = [];
@@ -70,8 +70,10 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
   
 
   getAstroconsolidatedList(year:any, month:any){
+    this.loading = true;
     this.astroconsolidatedService.getAstroConsolidatedReport(year, month, '').subscribe(      
             data => {
+              this.loading = false;
              this.astromonthReports = data.loggingtrackmonthlist;
              console.log(this.astromonthReports)
             }

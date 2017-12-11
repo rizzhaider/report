@@ -125,6 +125,11 @@ export const navigation = [
     icon: 'icon-pie-chart'
   },
   {
+    name: 'Payment Method',
+    url: '/paymentmethod',
+    icon: 'icon-pie-chart'
+  },
+  {
     divider: true
   },
   {

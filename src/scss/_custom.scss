@@ -137,3 +137,11 @@
       display: none;
   }
     
+  .hoverLink{
+      cursor: pointer;
+      color:#3498db !important;
+
+  }
+  .hoverLink:hover{
+   text-decoration: underline !important;
+  }
