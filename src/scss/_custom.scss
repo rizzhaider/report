@@ -107,6 +107,15 @@
 .textCenterTable tbody tr td{
     text-align: center !important;
 }
+
+.textCenterNowrapTable thead tr th{
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+.textCenterNowrapTable tbody tr td{
+    text-align: center !important;
+    white-space: nowrap !important;
+}
 @media only screen and (max-width:768px){
 
     .input-group .form-control{

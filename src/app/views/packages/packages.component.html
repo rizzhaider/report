@@ -55,7 +55,7 @@
                     <!-- <th>ID</th> -->
                     <th>Validity<small>(in mins)</small> </th>
                     <th>Type</th>                    
-                    <th>Price</th>
+                    <th>Price<small>(paisa)</small></th>
                     <th>Currency</th>
                     <!-- <th>Package Name</th> -->
                     <th>IsActive</th>
@@ -118,26 +118,26 @@
                     
                        
                         <div class="form-group row">
-                          <label class="col-sm-5 col-form-label" for="timeValidityID">Time Validity</label>
+                          <label class="col-sm-5 col-form-label" for="timeValidityID">Time Validity<small>(min)</small></label>
                           <div class="col-sm-6">
-                            <input class="form-control" id="timeValidityID" [(ngModel)]="packageItem.timeValidity" name="Time-Validity" placeholder="Time Validity" 
-                            type="text"  [readonly] = "readOnly"  #timevalidity="ngModel" required autocomplete="off">
+                            <input class="form-control" id="timeValidityID" [(ngModel)]="packageItem.timeValidity" name="Time-Validity" placeholder="Only Numeric" 
+                            type="number"  [readonly] = "readOnly"  #timevalidity="ngModel" required autocomplete="off">
                             <span class="help-block" *ngIf="!timevalidity.valid && timevalidity.touched">Please Enter Time validity</span>
                           </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-5 col-form-label" for="RockMrpId">RockMrp</label>
+                            <label class="col-sm-5 col-form-label" for="RockMrpId">RockMrp<small>(paisa)</small></label>
                             <div class="col-sm-6">
                               <input class="form-control" id="RockMrpId" name="Rock-mrp" [(ngModel)]="packageItem.rockMrp" 
-                              placeholder="Only numeric" type="text" [readonly] = "readOnly" #rockMrp="ngModel" required autocomplete="off" >
+                              placeholder="Only numeric" type="number" [readonly] = "readOnly" #rockMrp="ngModel" required autocomplete="off" >
                               <span class="help-block" *ngIf="!rockMrp.valid && rockMrp.touched">Please Enter RockMrp</span>
                             </div>
                           </div>
                           <div class="form-group row">
-                              <label class="col-sm-5 col-form-label" for="EmrpId">Emrp</label>
+                              <label class="col-sm-5 col-form-label" for="EmrpId">Emrp<small>(paisa)</small></label>
                               <div class="col-sm-6">
                                 <input class="form-control" id="EmrpId" name="E-Mrp" [(ngModel)]="packageItem.emrp" 
-                                placeholder="Only numeric" type="text" [readonly] = "readOnly" #eMrp = "ngModel"  required autocomplete="off">
+                                placeholder="Only numeric" type="number" [readonly] = "readOnly" #eMrp = "ngModel"  required autocomplete="off">
                                 <span class="help-block" *ngIf="!eMrp.valid && eMrp.touched">Please Enter Emrp</span>
                               </div>
                             </div>

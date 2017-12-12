@@ -18,7 +18,7 @@
                       <div class="form-group col-md-3 noMarginpadding">
                         
                           <select  [(ngModel)]="selectedYear" class="form-control" name="selectedYear" 
-                           (change) = "onYearChnage(selectedYear)">
+                           (change) = "onYearChnage()">
                             <option [ngValue] = null> -- Select Year -- </option>
                             <option *ngFor="let year of years"  [ngValue]="year"> {{year}} </option>
                             
@@ -26,7 +26,7 @@
                       </div>
                       <div class="form-group col-md-3 noMarginpadding">
                         
-                          <select class="form-control" [(ngModel)] = "selectedMonth" name="selectedMonth" (change) = "onMonthChange(selectedMonth)">
+                          <select class="form-control" [(ngModel)] = "selectedMonth" name="selectedMonth" (change) = "onMonthChange()">
                           
                               <option [ngValue] = null> -- Select Month -- </option>
                               <option *ngFor="let month of months"  [ngValue]="month.value"> {{month.name}} </option>
@@ -40,7 +40,7 @@
           </div>
           <div class="card-body">
               <div class="table-responsive"> 
-              <table class="table table-striped tableText textCenterTable">
+              <table class="table table-striped tableText textCenterNowrapTable">
                   <thead>
                     <tr>
                       <th>Date</th>

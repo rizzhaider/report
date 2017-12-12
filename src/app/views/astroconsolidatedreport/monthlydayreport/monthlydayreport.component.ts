@@ -50,10 +50,14 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedMonth = +this.route.snapshot.params['selectedMonth'];  
     
    
-    //this.monthlydata = this.astroconsolidatedService.getAstroConsolidatedReport(this.selectedYear, this.selectedMonth, astroid);
+    
     this.route.params.subscribe(
       (params: Params) => {
-        this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
+        const astroid = params['astroid'];
+        const selectedYear = params['selectedYear'];
+        const selectedMonth = params['selectedMonth'];  
+        console.log('selectedMonth Date' + '' + selectedMonth);
+        this.getAstroconsolidatedList(selectedYear, selectedMonth, astroid);
       }
 
     );
@@ -83,13 +87,13 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-  onYearChnage(onSelectYear:any){
-    this.selectedYear = onSelectYear;
+  onYearChnage(){    
     this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
+    this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
     }
-    onMonthChange(onSelectMonth:any){
-      this.selectedMonth = onSelectMonth;
+    onMonthChange(){     
       this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
+      this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
     }
 
   onNavigate(monthReport:Astromonthreport){

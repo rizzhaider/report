@@ -125,7 +125,7 @@
                           <label class="col-sm-5 col-form-label" for="OrderId">Order Id</label>
                           <div class="col-sm-6">
                             <input class="form-control" id="OrderId" name="order-id" [(ngModel)]="categoryItem.orderId"
-                             placeholder="Only numeric" type="text" #OrderId="ngModel" required autocomplete="off" >
+                             placeholder="Only numeric" type="number" #OrderId="ngModel" required autocomplete="off" >
                              <span class="help-block" *ngIf="!OrderId.valid && OrderId.touched">Please Order Id Name</span>
                           </div>
                         </div>

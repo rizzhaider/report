@@ -10,12 +10,11 @@ import { Subscription } from 'rxjs/Subscription';
   selector: 'app-daywisereport',
   templateUrl: './daywisereport.component.html',
  
- 
 })
 export class DaywisereportComponent implements OnInit, OnDestroy {
   loading:boolean = false;
   public timeLists: Session[] = [];
-  sessionDate: Date
+  sessionDate: string;
   selectedYear:number;
   selectedMonth:number;
   maxDate: Date;
@@ -34,31 +33,34 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectedYear = +this.route.snapshot.params['selectedYear'];
-    this.selectedMonth = +this.route.snapshot.params['selectedMonth']
+    this.selectedMonth = +this.route.snapshot.params['selectedMonth'];
     this.astroid = +this.route.snapshot.params['astroid'];
     this.sessionDate = this.route.snapshot.params['sessiondate'];
-    
+    console.log('sesssion Date' + '' + this.sessionDate);
     this.bsValue = new Date(this.sessionDate);
     this.bsValueStr = this.transformDate(this.bsValue, 'M/d/y');
-    this.bsDateAPIStr = this.transformDate(this.bsValue, 'y-M-d');
-    this.getAstroReportDay(this.astroid, this.bsDateAPIStr);
+    // this.bsDateAPIStr = this.transformDate(this.bsValue, 'y-M-d');
+    this.sessionDate = this.transformDate(this.bsValue, 'y-M-d');
+    this.getAstroReportDay(this.astroid, this.sessionDate);
     this.route.params.subscribe(
       (params: Params) => {
-        this.getAstroReportDay(this.astroid, this.bsDateAPIStr);
+        const atsroid = params['astroid'];       
+        const sessionDate = params['sessiondate'];        
+        this.getAstroReportDay(atsroid, sessionDate);
       }
 
     );
     console.log(this.astroid);
-    console.log(this.bsDateAPIStr);
+    console.log(this.sessionDate);
     console.log(this.selectedMonth)
   }
 
   ngOnDestroy() {
     
   }
-  getAstroReportDay(astroId:number, bsDateAPIStr:string){
+  getAstroReportDay(astroId:number, sessionDate:string){
     this.loading = true;
-    this.astroconsolidatedService.getAstroReportDay(astroId, this.bsDateAPIStr).subscribe(      
+    this.astroconsolidatedService.getAstroReportDay(astroId, sessionDate).subscribe(      
             data => {
               this.loading = false;
               this.timeLists = data.timelist;
@@ -71,10 +73,10 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
   }
   onChangeGetDetail(){
     
-     this.bsDateAPIStr = this.transformDate(this.bsValue, 'y-M-d');
+     this.sessionDate = this.transformDate(this.bsValue, 'y-M-d');
     
-     this.getAstroReportDay(this.astroid, this.bsDateAPIStr);
-    //  this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth, this.astroid, this.sessionDate], {relativeTo: this.route});
+     this.getAstroReportDay(this.astroid, this.sessionDate);
+     this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth, this.astroid, this.sessionDate], {relativeTo: this.route});
    }
   
 }
