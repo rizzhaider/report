@@ -2,7 +2,9 @@
 <div id="loader-wrapper" *ngIf="loading">
     <div id="loader"></div>
   </div>
-
+  <div class="alertDiv">
+    <app-alert></app-alert>
+  </div>
 
 <div class="animated fadeIn">
     <div class="row">
@@ -42,6 +44,7 @@
             <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
           </div>
           <div class="card-body">
+             <div *ngIf = "timeLists.length != 0">
                <div class="row" *ngFor="let sessionTimeListreport of timeLists, let i = index">
                  <div class="col-sm-12 col-md-12">
                     <h6>Session: {{i+1}}  </h6>
@@ -110,6 +113,8 @@
                 
                  </div>
                </div>
+              </div>
+
                <div class="row" *ngIf = "timeLists.length == 0">
                  <div class="col-sm-12 col-md-12">
                    <p class="text-center">No record found!</p>

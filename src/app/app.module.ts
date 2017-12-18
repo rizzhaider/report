@@ -1,3 +1,4 @@
+import { PaymentMethodService } from './services/paymentmethods.service';
 import { AlertService } from './services/alert.service';
 import { AstroconsolidatedService } from './services/astroconsolidated.service';
 
@@ -30,6 +31,8 @@ const APP_CONTAINERS = [
   FullLayoutComponent,
   SimpleLayoutComponent
 ]
+
+
 
 
 
@@ -128,7 +131,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AstroavailabilityService,
   BannerService,
   AstroconsolidatedService,
-  AlertService
+  AlertService,
+  PaymentMethodService
   ],
   
   bootstrap: [ AppComponent ]

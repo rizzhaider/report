@@ -1,3 +1,4 @@
+import { AlertService } from './../../../services/alert.service';
 
 import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
 import { Astromonthreport } from './../../../shared/model/astro-month-report.model';
@@ -40,7 +41,8 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
     {name: "December", value: 12 },
   ]
   public astromonthReports:Astromonthreport[] = [];
-  constructor( private route: ActivatedRoute, private router: Router, private astroconsolidatedService :AstroconsolidatedService) {}
+  constructor( private route: ActivatedRoute, private router: Router, private astroconsolidatedService :AstroconsolidatedService,
+                 private alertService:AlertService) {}
  
   ngOnInit() {
    
@@ -56,7 +58,7 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
         const astroid = params['astroid'];
         const selectedYear = params['selectedYear'];
         const selectedMonth = params['selectedMonth'];  
-        console.log('selectedMonth Date' + '' + selectedMonth);
+        console.log('selectedMonth Date ' + '' + selectedMonth);
         this.getAstroconsolidatedList(selectedYear, selectedMonth, astroid);
       }
 
@@ -82,7 +84,11 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
               this.loading = false;
              this.astromonthReports = data.loggingtrackmonthlist;
              console.log(this.astromonthReports)
-            }
+            }, error => {
+              
+            this.loading = false;
+            this.alertService.errorTimedOut('something went wrong!', 3000);
+          }
           )
   }
 

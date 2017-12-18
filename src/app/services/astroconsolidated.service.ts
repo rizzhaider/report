@@ -6,10 +6,11 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
 @Injectable()
 export class AstroconsolidatedService {
-    private baseURL = environment.baseBZURI;
-    // private getAstroConsolidatedURL = this.baseURL + '/loggTrackReportMonth';
-       private getAstroConsolidatedURL  =' http://restdev.rockstand.in/astrolive/loggTrackReportMonth';
-       private getAstroReportDayURL = 'http://restdev.rockstand.in/astrolive/loggTrackReportDay'
+    private baseURL = environment.baseBZURI;      
+    private getAstroConsolidatedURL  ='http://rest.rockasap.com/astrolive2/loggTrackReportMonth';    
+     private getAstroReportDayURL = 'http://rest.rockasap.com/astrolive2/loggTrackReportDay';
+     //   private getAstroConsolidatedURL = this.baseURL + '/loggTrackReportMonth';
+    //   private getAstroReportDayURL = this.baseURL + '/loggTrackReportDay';
        constructor(private http: Http) { }
     
     getAstroConsolidatedReport(year:any, month:any, astroId:any) {

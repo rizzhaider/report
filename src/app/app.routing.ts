@@ -49,11 +49,7 @@ export const routes: Routes = [
       {
         path: 'categories',
         loadChildren: './views/categories/categories.module#CategoriesModule'
-      },
-      {
-        path: 'packages',
-        loadChildren: './views/packages/packages.module#PackagesModule'
-      },
+      },     
       {
         path: 'astroconsolidatedreport',
         loadChildren: './views/astroconsolidatedreport/astroconsolidatedreport.module#AstroconsolidatedreportModule',
@@ -70,9 +66,9 @@ export const routes: Routes = [
         
       },
       {
-        path: 'paymentmethod',
-        loadChildren: './views/paymentmethod/paymentmethod.module#PaymentmethodModule',
-        
+        path: 'payments',
+        loadChildren: './views/payments/payments.module#PaymentsModule'
+
       },
       
     ]

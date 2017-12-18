@@ -1,3 +1,4 @@
+import { AlertService } from './../../services/alert.service';
 import { Astromonthreport } from './../../shared/model/astro-month-report.model';
 import { AstroconsolidatedService } from './../../services/astroconsolidated.service';
 
@@ -48,7 +49,8 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
   
  
   constructor( private route: ActivatedRoute,
-     private router: Router, private astroconsolidatedService :AstroconsolidatedService) {
+     private router: Router, private astroconsolidatedService :AstroconsolidatedService,
+     private alertService: AlertService,) {
      
    }
 
@@ -73,11 +75,14 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
     this.loading = true;
     this.astroconsolidatedService.getAstroConsolidatedReport(year, month, '').subscribe(      
             data => {
-              this.loading = false;
+             this.loading = false;
              this.astromonthReports = data.loggingtrackmonthlist;
              console.log(this.astromonthReports)
+            },error => {
+              this.loading = false;
+              this.alertService.errorTimedOut('something went wrong!', 3000);
             }
-          )
+          )  
   }
   onYearChnage(onSelectYear:any){
   this.selectedYear = onSelectYear;

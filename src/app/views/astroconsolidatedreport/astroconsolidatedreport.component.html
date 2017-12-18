@@ -1,7 +1,9 @@
 <div id="loader-wrapper" *ngIf="loading">
   <div id="loader"></div>
 </div>
-
+<div class="alertDiv">
+  <app-alert></app-alert>
+</div>
 <div class="animated fadeIn">
     <div class="row">
       
@@ -43,10 +45,10 @@
               <thead>
                 <tr>
                   <th>Astro Name</th>
-                  <th>Work Time</th>
-                  <th>DND Time</th>                    
-                  <th>Offline Time</th>
                   <th>Online Time</th>
+                  <th>DND Time</th>
+                  <th>Offline Time</th>
+                  <th>Total Work Time</th>
                   <th>Total Call</th>
                   <th>Received Call</th>
                   <th>Missed Call</th>
@@ -61,14 +63,14 @@
                                    
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="astromonthReports.length != 0">
                   
                   <tr *ngFor="let astromonthReport of astromonthReports">
                     <td ><a class="hoverLink" (click)="onNavigate(astromonthReport)">{{astromonthReport?.astro_name}}</a></td>
-                    <td>{{astromonthReport?.work_time | timedurationpipe}}</td>
+                    <td>{{astromonthReport?.online_time | timedurationpipe}}</td>
                     <td>{{astromonthReport?.dnd_time | timedurationpipe}}</td>
                     <td>{{astromonthReport?.offline_time | timedurationpipe}}</td>
-                    <td>{{astromonthReport?.online_time | timedurationpipe}}</td>
+                    <td>{{astromonthReport?.work_time | timedurationpipe}}</td>
                     <td>{{astromonthReport?.total_call}}</td>
                     <td>{{astromonthReport?.received_call}}</td>
                     <td>{{astromonthReport?.missed_call}}</td>

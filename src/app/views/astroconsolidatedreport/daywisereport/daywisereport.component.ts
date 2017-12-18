@@ -1,3 +1,4 @@
+import { AlertService } from './../../../services/alert.service';
 import { DatePipe } from '@angular/common';
 import { Session } from './../../../shared/model/timeList.model';
 import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
@@ -27,7 +28,7 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
     return this.datePipe.transform(date, format);
   }
   constructor(private route: ActivatedRoute, private router: Router, private astroconsolidatedService: AstroconsolidatedService, 
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe, private alertService: AlertService) {
       this.maxDate = new Date();    
      }
 
@@ -63,12 +64,14 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
     this.astroconsolidatedService.getAstroReportDay(astroId, sessionDate).subscribe(      
             data => {
               this.loading = false;
-              this.timeLists = data.timelist;
-              
-             console.log(this.timeLists);
-          //   this.astromonthReports = data.loggingtrackmonthlist;
-           //  console.log(this.astromonthReports)
-            }
+              this.timeLists = data.timelist;              
+              console.log(this.timeLists);
+           //   this.astromonthReports = data.loggingtrackmonthlist;
+           //   console.log(this.astromonthReports)
+            }, error => {              
+               this.loading = false;
+               this.alertService.errorTimedOut('something went wrong!', 3000);
+             }
           )
   }
   onChangeGetDetail(){

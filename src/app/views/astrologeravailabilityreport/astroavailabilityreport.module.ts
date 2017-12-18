@@ -1,3 +1,4 @@
+import { AlertModule } from './../../alert/alert.module';
 
 import { AstroavailabilityreportRoutingModule } from './astroavailabilityreport-routing.module';
 import { AstroavailabilityreportComponent } from './astroavailabilityreport.component';
@@ -11,6 +12,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     CommonModule,
     AstroavailabilityreportRoutingModule,
     BsDatepickerModule.forRoot(),
+    AlertModule
   ],
   declarations: [ AstroavailabilityreportComponent ],
   

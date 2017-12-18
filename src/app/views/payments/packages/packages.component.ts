@@ -1,15 +1,15 @@
-import { ObjectFilterPipe } from './../../shared/pipes/object-filter.pipe';
-import { AlertService } from './../../services/alert.service';
+import { PackagesService } from './../../../services/packages.service';
+import { Package } from './../../../shared/model/packages.model';
+import { PackageType } from './../../../shared/model/package-type.model';
+import { CurrencyType } from './../../../shared/model/currency-type.model';
+import { AlertService } from './../../../services/alert.service';
+import { ObjectFilterPipe } from './../../../shared/pipes/object-filter.pipe';
 import { NgForm } from '@angular/forms';
-import { PackageType } from './../../shared/model/package-type.model';
-import { CurrencyType } from './../../shared/model/currency-type.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Package } from './../../shared/model/packages.model';
-import { PackagesService } from './../../services/packages.service';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.component';
 @Component({
 
-  templateUrl: './packages.component.html',
+  templateUrl: 'packages.component.html',
   providers: [ObjectFilterPipe]
 
 
@@ -78,6 +78,11 @@ export class PackagesComponent implements OnInit {
         let endIndex = startIndex + this.itemsPerPage;
         this.displayPackages = this.filteredPackages.slice(startIndex, endIndex);
 
+      }, error => {
+        this.loading = false;
+        this.alertService.errorTimedOut('something went wrong!', 3000);
+       
+
       }
 
     )
@@ -106,7 +111,6 @@ export class PackagesComponent implements OnInit {
     this._form.form.markAsPristine();
     this._form.form.markAsUntouched();
     this._form.form.updateValueAndValidity();
-
     this._packageModal.show();
   }
 
@@ -117,9 +121,6 @@ export class PackagesComponent implements OnInit {
     } else {
       this.createPackage(form);
     }
-
-
-
   }
 
   createPackage(form: NgForm) {

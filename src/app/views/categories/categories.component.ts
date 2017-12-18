@@ -83,7 +83,12 @@ export class CategoriesComponent implements OnInit {
        let endIndex = startIndex + this.itemsPerPage;
        this.displayCategory = this.filteredCategory.slice(startIndex, endIndex);
        //console.log(this.category);
-        }
+        }, error => {
+          
+        this.loading = false; 
+        this.alertService.errorTimedOut('something went wrong!', 3000);
+
+      }
 
     )
   }
@@ -292,7 +297,7 @@ export class CategoriesComponent implements OnInit {
                   this.loading = false;
                   this.alertService.successTimedOut("Logo has been updated", 3000);
                   this._updateLogoModal.hide();
-                  this.getCategoriesList();
+                
                 } else {
                   this.loading = false;
                   this.alertService.errorTimedOut("Logo Cannot be updated at the moment", 3000);

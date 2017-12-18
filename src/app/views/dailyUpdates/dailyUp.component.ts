@@ -1,3 +1,4 @@
+import { AlertService } from './../../services/alert.service';
 import { DayWiseReport } from './../../shared/model/daywisereport.model';
 import { UserDayWiseService } from './../../services/userdaywise.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,7 +18,7 @@ export class DailyUpComponent implements OnInit  {
     return this.datePipe.transform(date, format);
   }
   constructor(private userDayWiseService: UserDayWiseService,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe, private alertService: AlertService
     ) {
       this.maxDate = new Date();
     }
@@ -34,8 +35,10 @@ export class DailyUpComponent implements OnInit  {
           data => {
             this.loading = false;
             this.DayWiseReport = data.astroUserActivityDTO;
-                        
-          }
+          }, error => {
+          this.loading = false;
+          this.alertService.errorTimedOut('something went wrong!', 3000);
+        }
         )
   }
   

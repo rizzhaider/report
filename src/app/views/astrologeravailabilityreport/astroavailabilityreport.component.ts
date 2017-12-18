@@ -1,3 +1,4 @@
+import { AlertService } from './../../services/alert.service';
 import { AstroAvailabilityReport } from './../../shared/model/astro-availability-report.model';
 
 import { AstroavailabilityService } from './../../services/astroavailability.service';
@@ -20,7 +21,7 @@ export class AstroavailabilityreportComponent implements OnInit {
    return this.datePipe.transform(date, format);
  }
   constructor(private astroavailabilityService:AstroavailabilityService,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe, private alertService: AlertService
     ) {
       this.maxDate = new Date();
     }
@@ -41,7 +42,11 @@ export class AstroavailabilityreportComponent implements OnInit {
             console.log(data);
              this.astroAvailabilityreport = data;
                          
-           }
+           }, error => {
+            
+          this.loading = false;
+          this.alertService.errorTimedOut('something went wrong!', 3000);
+        }
          )
    }
    onChangeGetDetail(){

@@ -104,11 +104,7 @@ export const navigation = [
     url: '/categories',
     icon: 'icon-pie-chart'
   },
-  {
-    name: 'Packages',
-    url: '/packages',
-    icon: 'icon-pie-chart'
-  },
+  
   {
     name: 'Astro Consolidated',
     url: '/astroconsolidatedreport',
@@ -124,11 +120,26 @@ export const navigation = [
     url: '/bannerreport',
     icon: 'icon-pie-chart'
   },
+  
   {
-    name: 'Payment Method',
-    url: '/paymentmethod',
-    icon: 'icon-pie-chart'
-  },
+    name: 'Payments',
+    url: '/payments',
+    icon: 'icon-puzzle',
+    children: [
+      {
+        name: 'Packages',
+        url: '/payments/packages',
+        icon: 'icon-pie-chart'
+      },
+      {
+        name: 'Payment Method',
+        url: '/payments/paymentmethods',
+        icon: 'icon-pie-chart'
+      },
+    ]
+  }, 
+
+  
   {
     divider: true
   },

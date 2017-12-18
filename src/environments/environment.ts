@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   envname: 'dev', 
    baseBZURI:'http://restdev.rockstand.in/astrolive',
+  // baseBZURI:'http://rest.rockasap.com/astrolive2'
   // baseBZURI:'http://192.168.1.33:8080/astrolive'
  
 };

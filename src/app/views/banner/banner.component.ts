@@ -77,7 +77,11 @@ export class BannerComponent implements OnInit {
        let endIndex = startIndex + this.itemsPerPage;
        this.displayBanner = this.filteredBanner.slice(startIndex, endIndex);
        //console.log(this.category);
-        }
+        }, error => {
+          
+        this.loading = false;
+        this.alertService.errorTimedOut('something went wrong!', 3000);
+      }
 
     )
   }

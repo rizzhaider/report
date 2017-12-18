@@ -1,3 +1,4 @@
+import { AlertModule } from './../../alert/alert.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DailyUpComponent } from './dailyUp.component';
@@ -9,6 +10,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     CommonModule,
     DailyUpRoutingModule,
     BsDatepickerModule.forRoot(),
+    AlertModule
   ],
   declarations: [ DailyUpComponent ],
   
