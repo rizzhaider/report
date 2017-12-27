@@ -1,0 +1,133 @@
+<div id="loader-wrapper" *ngIf="loading">
+    <div id="loader"></div>
+</div>
+<div class="alertDiv">
+  <app-alert></app-alert>
+</div>
+
+<div class="animated fadeIn" > 
+    
+  <div class="row" >
+     
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group ">
+            <label class="col-form-label" for="appendedInputButton">Start Date</label>
+            <div class="controls">
+              <div class="input-group">
+                <span class="input-group-addon" (click)="dpStart.toggle()"><i class="fa fa-calendar"></i></span>
+                <input class="form-control"  type="text"
+                class="form-control"
+                [minDate]="minDateStart"
+                [maxDate]="maxDateStart"               
+                #dpStart="bsDatepicker"                
+                value = "{{bsValueStrStart}}" 
+                bsDatepicker [(bsValue)]="bsValueStart" (bsValueChange) = "onChangeStartdate()" readonly>
+                
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group ">
+          <label class="col-form-label" for="appendedInputButton">End Date</label>
+          <div class="controls">
+            <div class="input-group">
+              <span class="input-group-addon" (click)="dpEnd.toggle()"><i class="fa fa-calendar"></i></span>
+              <input class="form-control"  type="text"
+              class="form-control"
+              [minDate]="minDateEnd"
+              [maxDate]="maxDateEnd"               
+              #dpEnd="bsDatepicker"                
+              value = "{{bsValueStrEnd}}" 
+              bsDatepicker [(bsValue)]="bsValueEnd" (bsValueChange) = "onChangeEnddate()" readonly>
+              
+            </div>
+          </div>
+        </div>
+  </div>
+  </div>
+  
+    <!-- <div class="row" *ngIf="!loading">
+       
+        <div class="col-sm-6 col-md-4">
+          <div class="card">
+            
+            <div class="card-body">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-user-unfollow"></i>
+              </div>
+              <div class="h4 mb-0">{{astroAvailabilityreport?.report.unavailableEvents}}</div>
+              <small class="text-muted text-uppercase font-weight-bold">Times no Astrologer availability</small>              
+              <div class="h4 mb-0 heightTop">{{astroAvailabilityreport?.report.uniqueUsersWithUnavailableEvents}}</div>
+              <small class="text-muted text-uppercase font-weight-bold">Users got no Astrologer</small>
+              <div class="progress progress-xs mt-3 mb-0">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="h1 text-muted text-right mb-4">
+                <i class="icon-user"></i>
+              </div>
+              <div class="h4 mb-0">{{astroAvailabilityreport?.report.busyEvents}}</div>
+              <small class="text-muted text-uppercase font-weight-bold">Times Astrologer Busy & DND</small>
+              <div class="h4 mb-0 heightTop">{{astroAvailabilityreport?.report.uniqueUsersWithBusyEvents}}</div>
+              <small class="text-muted text-uppercase font-weight-bold">Users found Astrologer Busy & DND</small>
+              <div class="progress progress-xs mt-3 mb-0">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" class="progress-bar bg-warning" role="progressbar" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div> -->
+
+
+      <div class="row">
+        
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Astro Force Report
+              <!-- <span class="pull-right linkHover" data-toggle="modal" (click) = "onAddPackage()" >Add New Package</span> -->
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">  
+              <table class="table table-striped textCenterTable">
+                <thead>
+                  <tr>
+                    <th>Astro Name</th>
+                    <th>Logout Time</th>
+                    
+                    
+                                     
+                  </tr>
+                </thead>
+                <tbody *ngIf = "(astroforcelogoutReportLists.length) !== 0">
+                  <tr *ngFor="let astroforcelogoutReportList of astroforcelogoutReportLists">
+                    
+                    <td><b>{{astroforcelogoutReportList?.astroName}}</b></td>
+                    <td>{{astroforcelogoutReportList?.logoutDate | date: 'medium'}}</td> 
+                  </tr>
+                </tbody>
+                <tbody  *ngIf = "(astroforcelogoutReportLists.length) === 0">
+                <tr>
+                  <td colspan="5">No record found !</td>
+                </tr>
+                </tbody>
+              </table> 
+             </div>
+             
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+
+
+  </div>
+  

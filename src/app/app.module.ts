@@ -1,3 +1,4 @@
+import { AstroforcelogoutService } from './services/astroforcelogout.service';
 import { PaymentMethodService } from './services/paymentmethods.service';
 import { AlertService } from './services/alert.service';
 import { AstroconsolidatedService } from './services/astroconsolidated.service';
@@ -132,7 +133,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   BannerService,
   AstroconsolidatedService,
   AlertService,
-  PaymentMethodService
+  PaymentMethodService,
+  AstroforcelogoutService
   ],
   
   bootstrap: [ AppComponent ]

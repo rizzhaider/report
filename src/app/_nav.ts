@@ -106,21 +106,37 @@ export const navigation = [
   },
   
   {
-    name: 'Astro Consolidated',
-    url: '/astroconsolidatedreport',
-    icon: 'icon-pie-chart'
-  },
-  {
     name: 'Astro Availability',
     url: '/astroavailabilityreport',
     icon: 'icon-pie-chart'
+  },
+  {
+    name: 'Consolidated Report',
+    url: '/consolidatedreport',
+    icon: 'icon-puzzle',
+        children:[
+          {
+          name : 'Astro Wise Report',
+          url: '/consolidatedreport/astrowisereport',
+          icon: 'icon-pie-chart',
+          },
+          {
+            name : 'Astro DayWise Report',
+            url: '/consolidatedreport/daywisereport',
+            icon: 'icon-pie-chart',
+            }
+        ]
   },
   {
     name: 'Banner Report',
     url: '/bannerreport',
     icon: 'icon-pie-chart'
   },
-  
+  {
+    name: 'Astro Force Report',
+    url: '/astroforcereport',
+    icon: 'icon-pie-chart'
+  },
   {
     name: 'Payments',
     url: '/payments',

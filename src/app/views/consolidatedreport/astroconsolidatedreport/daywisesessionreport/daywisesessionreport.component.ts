@@ -1,18 +1,20 @@
-import { AlertService } from './../../../services/alert.service';
+import { AstroconsolidatedService } from './../../../../services/astroconsolidated.service';
+import { AlertService } from './../../../../services/alert.service';
+import { Session } from './../../../../shared/model/timeList.model';
+
 import { DatePipe } from '@angular/common';
-import { Session } from './../../../shared/model/timeList.model';
-import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
-import { DummyService } from './../../../services/dummy.service';
+
+
 import { ActivatedRoute, Params, Data, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'app-daywisereport',
-  templateUrl: './daywisereport.component.html',
+  selector: 'app-daywisesessionreport',
+  templateUrl: './daywisesessionreport.component.html',
  
 })
-export class DaywisereportComponent implements OnInit, OnDestroy {
+export class DaywisesessionreportComponent implements OnInit, OnDestroy {
   loading:boolean = false;
   public timeLists: Session[] = [];
   sessionDate: string;
@@ -39,7 +41,7 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
     this.sessionDate = this.route.snapshot.params['sessiondate'];
     console.log('sesssion Date' + '' + this.sessionDate);
     this.bsValue = new Date(this.sessionDate);
-    this.bsValueStr = this.transformDate(this.bsValue, 'M/d/y');
+    this.bsValueStr = this.transformDate(this.bsValue, 'd/M/y');
     // this.bsDateAPIStr = this.transformDate(this.bsValue, 'y-M-d');
     this.sessionDate = this.transformDate(this.bsValue, 'y-M-d');
     this.getAstroReportDay(this.astroid, this.sessionDate);
@@ -75,11 +77,10 @@ export class DaywisereportComponent implements OnInit, OnDestroy {
           )
   }
   onChangeGetDetail(){
-    
-     this.sessionDate = this.transformDate(this.bsValue, 'y-M-d');
-    
+    this.bsValueStr = this.transformDate(this.bsValue, 'd/M/y');
+     this.sessionDate = this.transformDate(this.bsValue, 'y-M-d');     
      this.getAstroReportDay(this.astroid, this.sessionDate);
-     this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth, this.astroid, this.sessionDate], {relativeTo: this.route});
+     this.router.navigate(['/consolidatedreport/astrowisereport',this.astroid, this.selectedYear, this.selectedMonth, this.astroid, this.sessionDate], {relativeTo: this.route});
    }
   
 }

@@ -191,8 +191,11 @@ export class BannerComponent implements OnInit {
                   }
       },
       error => {
-      this.loading = false;
       this.alertService.errorTimedOut(error, 3000);
+      this._bannerModal.hide();
+      this.loading = false;
+     
+      
       });
 
   }
@@ -219,7 +222,9 @@ export class BannerComponent implements OnInit {
         console.log(data);
       },
       error => {
+       
         this.alertService.errorTimedOut(error, 3000);
+        this._bannerModal.hide();
         this.loading = false;
 
       });

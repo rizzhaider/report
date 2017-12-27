@@ -51,8 +51,8 @@ export const routes: Routes = [
         loadChildren: './views/categories/categories.module#CategoriesModule'
       },     
       {
-        path: 'astroconsolidatedreport',
-        loadChildren: './views/astroconsolidatedreport/astroconsolidatedreport.module#AstroconsolidatedreportModule',
+        path: 'consolidatedreport',
+        loadChildren: './views/consolidatedreport/consolidatedreport.module#ConsolidatedreportModule',
         
       },
       {
@@ -63,6 +63,11 @@ export const routes: Routes = [
       {
         path: 'bannerreport',
         loadChildren: './views/banner/banner.module#BannerModule',
+        
+      },
+      {
+        path: 'astroforcereport',
+        loadChildren: './views/astroforcereport/astroforcereport.module#AstroforcereportModule',
         
       },
       {

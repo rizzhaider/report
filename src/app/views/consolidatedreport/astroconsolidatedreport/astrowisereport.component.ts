@@ -1,18 +1,18 @@
-import { AlertService } from './../../services/alert.service';
-import { Astromonthreport } from './../../shared/model/astro-month-report.model';
-import { AstroconsolidatedService } from './../../services/astroconsolidated.service';
+import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
+import { AlertService } from './../../../services/alert.service';
+import { Astromonthreport } from './../../../shared/model/astro-month-report.model';
 
 import { ActivatedRoute, Router, NavigationExtras, Params } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
  
-  templateUrl: './astroconsolidatedreport.component.html',
+  templateUrl: './astrowisereport.component.html',
  
 
 })
 
-export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, NavigationExtras      {
+export class AstrowisereportComponent implements OnInit, OnDestroy, NavigationExtras      {
    
 
   relativeTo?: ActivatedRoute | null
@@ -98,7 +98,7 @@ export class AstroconsolidatedreportComponent implements OnInit, OnDestroy, Navi
       skipLocationChange: true,
       
     };
-    this.router.navigate(['/astroconsolidatedreport', monthReport.astroid, this.selectedYear, this.selectedMonth ]);
+    this.router.navigate(['/consolidatedreport/astrowisereport', monthReport.astroid, this.selectedYear, this.selectedMonth ]);
   }
 
 }

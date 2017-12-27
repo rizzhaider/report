@@ -1,7 +1,6 @@
-import { AlertService } from './../../../services/alert.service';
-
-import { AstroconsolidatedService } from './../../../services/astroconsolidated.service';
-import { Astromonthreport } from './../../../shared/model/astro-month-report.model';
+import { AstroconsolidatedService } from './../../../../services/astroconsolidated.service';
+import { AlertService } from './../../../../services/alert.service';
+import { Astromonthreport } from './../../../../shared/model/astro-month-report.model';
 
 
 import { ActivatedRoute, Params,  Router, NavigationExtras } from '@angular/router';
@@ -19,6 +18,7 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
  
   loading:boolean = false;
   public astroid:number;
+  public astroName:string;
   selectedYear:number = null;
   selectedMonth:number = null;
   preserveFragment?: boolean
@@ -83,6 +83,9 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
             data => {
               this.loading = false;
              this.astromonthReports = data.loggingtrackmonthlist;
+             this.astromonthReports.forEach(astroName => {
+               this.astroName = astroName.astro_name;
+             })
              console.log(this.astromonthReports)
             }, error => {
               
@@ -95,11 +98,11 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
 
   onYearChnage(){    
     this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
-    this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
+    this.router.navigate(['/consolidatedreport/astrowisereport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
     }
     onMonthChange(){     
       this.getAstroconsolidatedList(this.selectedYear, this.selectedMonth, this.astroid);
-      this.router.navigate(['/astroconsolidatedreport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
+      this.router.navigate(['/consolidatedreport/astrowisereport',this.astroid, this.selectedYear, this.selectedMonth], {relativeTo: this.route});
     }
 
   onNavigate(monthReport:Astromonthreport){
@@ -109,6 +112,6 @@ export class MonthlydayreportComponent implements OnInit, OnDestroy, OnChanges {
       skipLocationChange: true,
      
     };
-    this.router.navigate([ '/astroconsolidatedreport',monthReport.astroid, this.selectedYear, this.selectedMonth, monthReport.astroid, monthReport.logging_date]  );
+    this.router.navigate([ '/consolidatedreport/astrowisereport',monthReport.astroid, this.selectedYear, this.selectedMonth, monthReport.astroid, monthReport.logging_date]  );
   }
 }
