@@ -13,7 +13,7 @@ export class AstroconsolidatedService {
        //private getAstroReportDayURL = 'http://rest.rockasap.com/astrolive2/loggTrackReportDay';
        private getAstroConsolidatedURL = this.baseURL + '/loggTrackReportMonth';
        private getAstroReportDayURL = this.baseURL + '/loggTrackReportDay';      
-       private getAstrodaywiseReportURL = 'http://192.168.1.28:8080/astrolive/loggTrackReportMonth';
+    //    private getAstrodaywiseReportURL = 'http://192.168.1.28:8080/astrolive/loggTrackReportMonth';
        constructor(private http: Http) {}  
 
     getAstroConsolidatedReport(year:any, month:any, astroId:any) {
@@ -41,10 +41,10 @@ export class AstroconsolidatedService {
     }
 
     getAstrodayWiseReport(date:string){
-        let _getAstrodaywiseReportURL = this.getAstrodaywiseReportURL;
-        _getAstrodaywiseReportURL = _getAstrodaywiseReportURL + '?date=' + date;
-        console.log(_getAstrodaywiseReportURL);
-        return this.http.get(_getAstrodaywiseReportURL)
+        let _getAstroConsolidatedURL = this.getAstroConsolidatedURL;
+        _getAstroConsolidatedURL = _getAstroConsolidatedURL + '?date=' + date;
+        console.log(_getAstroConsolidatedURL);
+        return this.http.get(_getAstroConsolidatedURL)
         .map((response: Response) => {
             let data = response.json();
             return data;

@@ -30,7 +30,10 @@ export class DaywisereportComponent implements OnInit {
   }
  
   ngOnInit() {
+   
+ 
     this.bsValue = new Date();
+    this.bsValue.setDate(this.bsValue.getDate() - 2);
     this.bsValueStr = this.transformDate(this.bsValue, 'd/M/y');
     this.bsDateAPIStr = this.transformDate(this.bsValue, 'y-M-d');
     this.getAstrodaywiseList(this.bsDateAPIStr);
